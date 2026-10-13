@@ -85,3 +85,32 @@
     .k-hero{padding:46px 16px 28px;}
     .k-hero-cta .k-btn{flex:1;}
 }
+
+/* ---------- animasi neo brutalism tambahan ---------- */
+.k-h1{position:relative;display:inline-block;}
+.k-h1::after{
+    content:"";position:absolute;left:-4px;right:-4px;bottom:2px;height:.34em;z-index:-1;
+    background:var(--accent-2);transform-origin:left center;transform:scaleX(0) skewX(-12deg);
+    animation:k-underline .8s var(--ease) .55s forwards;
+}
+@keyframes k-underline{to{transform:scaleX(1) skewX(-12deg);}}
+
+.k-hero-badge{animation:k-badge-pop .7s var(--spring) .1s backwards;}
+@keyframes k-badge-pop{from{opacity:0;transform:rotate(-8deg) scale(.6);}to{opacity:1;transform:rotate(-1.5deg) scale(1);}}
+
+.k-btn-primary{position:relative;overflow:hidden;}
+.k-btn-primary::after{
+    content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
+    transform:skewX(-20deg);animation:k-shine 3.6s ease-in-out 1.4s infinite;
+}
+@keyframes k-shine{0%,60%{left:-70%;}100%{left:140%;}}
+
+.k-quick:hover{transform:translate(-3px,-3px) rotate(-1deg);box-shadow:9px 9px 0 var(--ink);}
+.k-stat-value{transition:transform .3s var(--spring);}
+.k-card:hover .k-stat-value{transform:scale(1.06) rotate(-1deg);}
+
+@media (prefers-reduced-motion:reduce){
+    .k-h1::after{animation:none;transform:scaleX(1) skewX(-12deg);}
+    .k-hero-badge,.k-btn-primary::after{animation:none;}
+}
