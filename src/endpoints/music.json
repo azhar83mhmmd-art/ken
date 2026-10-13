@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Play Music",
+    "endpoint": "/api/music/playmusic",
+    "filename": "playmusic",
+    "method": "GET",
+    "params": [
+      {
+        "name": "q",
+        "required": true,
+        "description": "Judul lagu/kata kunci pencarian di YouTube"
+      }
+    ]
+  },
+  {
+    "name": "Vocal Remover",
+    "endpoint": "/api/music/vocalremover",
+    "filename": "vocalremover",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Link file audio (mp3) yang ingin dipisahkan vokal & instrumennya"
+      },
+      {
+        "name": "format",
+        "required": false,
+        "description": "Format output audio, default mp3"
+      }
+    ]
+  }
+]
