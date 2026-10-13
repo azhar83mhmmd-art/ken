@@ -2,12 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FACC15">
 <title>Kairoo | Documents</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/docs/docs.css">
+<link rel="stylesheet" href="/docs/docs.css?v=20261013a">
 </head>
 <body class="min-h-screen flex flex-col relative overflow-x-hidden">
 
@@ -18,17 +19,25 @@
 </div>
 
 <header id="site-header" class="site-header">
-    <div class="max-w-7xl mx-auto px-5 h-20 flex items-center gap-4 justify-between">
-        <button id="menu-toggle" class="clay-icon-btn" aria-label="Buka menu" aria-expanded="false" aria-controls="sidebar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-5 h-[68px] sm:h-20 flex items-center gap-3 justify-between">
+        <button id="menu-toggle" class="clay-icon-btn" aria-label="Buka menu endpoint" aria-expanded="false" aria-controls="sidebar">
             <i class="fa-solid fa-bars text-sm"></i>
         </button>
 
-        <div class="flex-1 min-w-0">
-            <h1 id="nav-title" class="font-black text-lg tracking-tight leading-none truncate" style="color:#0A0A0A">KAIROO</h1>
-            <span class="text-[10px] font-bold tracking-widest" style="color:#15803D">API PLATFORM</span>
-        </div>
+        <a href="/" class="brand-lockup flex-1 min-w-0" aria-label="Kairoo - Beranda">
+            <span class="brand-dot"></span>
+            <span class="min-w-0">
+                <h1 id="nav-title" class="font-black text-lg tracking-tight leading-none truncate" style="color:#0A0A0A">KAIROO</h1>
+                <span class="text-[10px] font-bold tracking-widest" style="color:#15803D">API DOCS</span>
+            </span>
+        </a>
 
         <div class="flex items-center gap-2 shrink-0">
+            <button type="button" class="search-trigger" data-kb-search aria-label="Cari endpoint (Ctrl+K)">
+                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                <span class="hidden sm:inline">Cari endpoint</span>
+                <kbd class="hidden md:inline">Ctrl K</kbd>
+            </button>
             <a href="/" class="clay-icon-btn" aria-label="Kembali ke Beranda">
                 <i class="fa-solid fa-house text-sm"></i>
             </a>
@@ -55,7 +64,14 @@
         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-xs" style="color:#15803D"></i>
     </div>
 
-    <div id="sidebar-tree" class="flex-1 overflow-y-auto flex flex-col gap-2 pr-1"></div>
+    <div id="method-filters" class="flex flex-wrap gap-2 mb-3" role="group" aria-label="Filter method">
+        <button type="button" class="chip-btn active" data-method="all">Semua</button>
+        <button type="button" class="chip-btn" data-method="get">GET</button>
+        <button type="button" class="chip-btn" data-method="post">POST</button>
+        <button type="button" class="chip-btn" data-method="other">Lainnya</button>
+    </div>
+
+    <div id="sidebar-tree" class="sidebar-tree flex flex-col gap-2 pr-1"></div>
 
     <div id="no-results" class="hidden flex-col items-center justify-center py-8 text-center">
         <i class="fa-solid fa-magnifying-glass text-2xl mb-2" style="color:#15803D"></i>
@@ -69,11 +85,31 @@
     </div>
 </aside>
 
-<main class="flex-grow max-w-7xl mx-auto w-full px-5 py-8 grid lg:grid-cols-12 gap-8 items-start relative z-10">
+<section class="doc-hero max-w-7xl mx-auto w-full px-4 sm:px-5 pt-6 sm:pt-8 relative z-10">
+    <div class="doc-hero-card">
+        <span class="doc-hero-shape s1"></span><span class="doc-hero-shape s2"></span><span class="doc-hero-shape s3"></span>
+        <div class="doc-hero-text">
+            <span class="doc-pill"><span class="live-dot"></span> Dokumentasi interaktif</span>
+            <h2 class="doc-hero-title">Coba API langsung<br class="hidden sm:block"> dari browser.</h2>
+            <p class="doc-hero-sub">Pilih endpoint, isi parameter, tekan Execute. Hasilnya langsung tampil, lengkap dengan contoh kode.</p>
+            <div class="flex flex-wrap gap-3 mt-5">
+                <button type="button" class="clay-btn px-5 h-11 text-[12px]" id="hero-browse"><i class="fa-solid fa-folder-open text-xs"></i> Jelajahi endpoint</button>
+                <button type="button" class="clay-btn purple px-5 h-11 text-[12px]" data-kb-search><i class="fa-solid fa-magnifying-glass text-xs"></i> Cari cepat</button>
+            </div>
+        </div>
+        <div class="doc-hero-stats">
+            <div class="doc-stat"><b id="doc-stat-endpoints" data-countup>-</b><span>Endpoint</span></div>
+            <div class="doc-stat"><b id="doc-stat-cats" data-countup>-</b><span>Kategori</span></div>
+            <div class="doc-stat"><b id="doc-stat-ping">-</b><span>Respon /config</span></div>
+        </div>
+    </div>
+</section>
 
-    <aside class="lg:col-span-4 lg:sticky lg:top-24 flex flex-col gap-6 h-fit min-w-0">
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-5 py-6 sm:py-8 grid lg:grid-cols-12 gap-6 lg:gap-8 items-start relative z-10">
+
+    <aside class="order-2 lg:order-1 lg:col-span-4 lg:sticky lg:top-24 flex flex-col gap-6 h-fit min-w-0">
         <div class="clay-console reveal">
-            <div class="clay-console-screen flex flex-col h-[380px] overflow-hidden">
+            <div class="clay-console-screen flex flex-col h-[300px] sm:h-[380px] overflow-hidden">
                 <div class="px-4 py-3 flex items-center gap-2 border-b border-white/10">
                     <div class="flex gap-2">
                         <div class="w-3 h-3 rounded-full" style="background:#E2727E"></div>
@@ -135,14 +171,14 @@
         </div>
     </aside>
 
-    <section class="lg:col-span-8 min-h-[50vh] w-full min-w-0">
-        <div id="intro-view" class="clay-card p-7 reveal"></div>
+    <section id="doc-content" class="order-1 lg:order-2 lg:col-span-8 min-h-[50vh] w-full min-w-0">
+        <div id="intro-view" class="clay-card p-5 sm:p-7 reveal"></div>
         <div id="endpoint-view" class="hidden flex-col gap-4"></div>
     </section>
 
 </main>
 
-<div id="custom-toast" class="fixed bottom-6 right-6 z-[100] transform translate-y-32 opacity-0 transition-all duration-300">
+<div id="custom-toast" class="fixed bottom-5 left-4 sm:left-6 z-[100] transform translate-y-32 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="flex items-center gap-3 px-5 py-3.5 rounded-2xl" style="background:#0A0A0A;border:3px solid #0A0A0A;box-shadow:5px 5px 0 #16A34A">
         <div class="w-6 h-6 rounded-full flex items-center justify-center" style="background:#4ADE80;color:#0A0A0A">
             <i class="fa-solid fa-check text-xs"></i>
@@ -154,7 +190,7 @@
     </div>
 </div>
 
-<script src="/docs/docs.js"></script>
-<script src="/kairoo-ui.js"></script>
+<script src="/docs/docs.js?v=20261013a"></script>
+<script src="/kairoo-ui.js?v=20261013a"></script>
 </body>
 </html>
