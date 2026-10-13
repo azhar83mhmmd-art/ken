@@ -417,3 +417,68 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     transition:opacity .3s var(--ease),transform .35s var(--spring);
 }
 .toast.show{opacity:1;transform:none;}
+
+/* =====================================================================
+ *  v4 — responsif + sentuhan modern (berlaku di semua halaman)
+ * ===================================================================== */
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px);}
+body{min-height:100vh;min-height:100dvh;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
+img,svg,video,canvas{max-width:100%;}
+h1,h2,h3,p,li,td,th{overflow-wrap:anywhere;}
+
+/* navbar */
+.k-navbar{padding-top:env(safe-area-inset-top,0px);height:calc(var(--nav-h) + env(safe-area-inset-top,0px));}
+.k-brand{min-width:0;}
+.k-brand-dot{transition:transform .6s var(--spring),border-radius .3s;}
+.k-brand:hover .k-brand-dot{border-radius:50%;}
+.k-nav-drawer{padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));}
+
+/* kartu & tombol */
+.k-btn{-webkit-tap-highlight-color:transparent;user-select:none;}
+.k-btn-primary::after{pointer-events:none;}
+.k-card{min-width:0;}
+.k-table-wrap{-webkit-overflow-scrolling:touch;background:
+    linear-gradient(90deg,var(--card) 30%,transparent) left center / 24px 100% no-repeat local,
+    linear-gradient(270deg,var(--card) 30%,transparent) right center / 24px 100% no-repeat local,
+    linear-gradient(90deg,rgba(10,10,10,.22),transparent) left center / 10px 100% no-repeat scroll,
+    linear-gradient(270deg,rgba(10,10,10,.22),transparent) right center / 10px 100% no-repeat scroll,
+    var(--card);}
+
+/* toast pindah ke kiri-bawah supaya tidak tertutup dock tombol */
+.toast-stack{right:auto;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);}
+
+/* footer */
+.k-footer{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px));}
+.k-footer-link[target="_blank"]::after{content:" \2197";font-size:.9em;}
+
+/* fokus keyboard yang jelas */
+:focus-visible{outline:3px solid var(--accent-3);outline-offset:3px;}
+
+@media (max-width:640px){
+    :root{--nav-h:60px;--ne-raised:4px 4px 0 var(--ink);}
+    .k-container{padding:0 16px;}
+    .k-navbar-inner{padding:0 16px;}
+    .k-brand{font-size:17px;}
+    .k-card{padding:15px;}
+    .k-card:hover{box-shadow:6px 6px 0 var(--ink);}
+    .k-h2{font-size:16px;margin-bottom:14px;}
+    .k-lead{font-size:14.5px;}
+    .k-stat-value{font-size:24px;}
+    .k-footer{padding:32px 16px calc(24px + env(safe-area-inset-bottom,0px));margin-top:48px;}
+    .k-footer-inner{flex-direction:column;gap:18px;}
+    .k-terminal{font-size:11.5px;}
+    .k-terminal-row .k{width:84px;}
+    .k-terminal-body{padding:14px;overflow-x:auto;}
+    .k-table{min-width:520px;}
+    ::-webkit-scrollbar{width:8px;height:8px;}
+}
+@media (max-width:380px){
+    .k-btn{padding:11px 14px;font-size:12.5px;}
+    .k-nav-drawer{width:92vw;}
+}
+@media (hover:none){
+    .k-card:hover,.k-btn:hover,.k-nav-link:hover{transform:none;}
+}
+@media (max-height:480px) and (orientation:landscape){
+    .k-navbar{position:static;}
+}
