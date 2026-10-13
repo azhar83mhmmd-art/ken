@@ -40,6 +40,28 @@ function setApiStatus(mode, text) {
     if (termEl) termEl.textContent = mode === 'live' ? 'online' : (mode === 'offline' ? 'offline' : 'unavailable');
 }
 
+function escHtml(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+}
+
+function renderCategories(tags) {
+    var wrap = document.getElementById('cat-grid');
+    var sec = document.getElementById('cat-section');
+    if (!wrap || !tags || typeof tags !== 'object') return;
+    var cats = Object.keys(tags);
+    if (!cats.length) return;
+    wrap.innerHTML = cats.map(function (cat) {
+        var n = Array.isArray(tags[cat]) ? tags[cat].length : 0;
+        return '<a class="k-card k-cat" href="/docs#cat=' + encodeURIComponent(cat) + '">' +
+            '<span class="k-cat-n">' + n + '</span>' +
+            '<span class="k-cat-name">' + escHtml(cat) + '</span>' +
+            '<span class="k-cat-sub">endpoint</span></a>';
+    }).join('');
+    if (sec) sec.style.display = '';
+}
+
 /* ===================== render ===================== */
 
 function renderConfig(config) {
@@ -62,6 +84,8 @@ function renderConfig(config) {
         document.getElementById('info-runtime').textContent = config.runtime.node ? ('Node.js ' + config.runtime.node) : 'N/A';
         document.getElementById('info-started').textContent = fmtDateTime(config.runtime.startedAt);
     }
+
+    renderCategories(config.tags);
 
     const endpointCount = countEndpoints(config.tags);
     document.getElementById('stat-active-endpoints').textContent = endpointCount !== null ? fmtNumber(endpointCount) : 'N/A';
