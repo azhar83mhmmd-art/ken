@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Shinigami Manga Detail",
+    "endpoint": "/api/info/shinigamidetail",
+    "filename": "shinigamidetail",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL series atau manga_id (UUID) dari g.shinigami.asia"
+      },
+      {
+        "name": "page",
+        "required": false,
+        "description": "Halaman daftar chapter, default 1"
+      },
+      {
+        "name": "page_size",
+        "required": false,
+        "description": "Jumlah chapter per halaman, default 24 (maks 50)"
+      },
+      {
+        "name": "sort",
+        "required": false,
+        "description": "Urutan chapter: desc (terbaru dulu, default) atau asc"
+      }
+    ]
+  },
+  {
+    "name": "Shinigami Manga Read",
+    "endpoint": "/api/info/shinigamiread",
+    "filename": "shinigamiread",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL chapter atau URL series (ambil chapter terbaru) dari g.shinigami.asia"
+      },
+      {
+        "name": "id",
+        "required": false,
+        "description": "Alternatif dari 'url' — chapter_id (UUID) langsung"
+      }
+    ]
+  }
+]
