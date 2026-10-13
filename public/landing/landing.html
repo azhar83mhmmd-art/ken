@@ -2,13 +2,14 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FACC15">
 <title>Kairoo API | Beranda</title>
 <meta name="description" content="Kairoo API — API Platform untuk aplikasi modern.">
 <link id="favicon" rel="icon" href="">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/theme.css">
-<link rel="stylesheet" href="/landing/landing.css">
+<link rel="stylesheet" href="/theme.css?v=20261013a">
+<link rel="stylesheet" href="/landing/landing.css?v=20261013a">
 </head>
 <body class="antialiased" data-page="home">
 
@@ -33,6 +34,10 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a href="/docs" class="k-btn k-btn-ghost">Dokumentasi</a>
+        <button type="button" class="k-btn k-btn-light" data-kb-search>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.9-4.9"/></svg>
+            Cari endpoint <kbd class="k-kbd">Ctrl K</kbd>
+        </button>
     </div>
 
     <div id="api-status" class="k-badge">
@@ -100,6 +105,11 @@
     </div>
 </section>
 
+<section class="k-container k-page-tight" id="cat-section" style="display:none">
+    <h2 class="k-h2">Kategori API</h2>
+    <div id="cat-grid" class="k-bento k-bento-cats"></div>
+</section>
+
 <section class="k-container k-page-tight">
     <h2 class="k-h2">Quick Access</h2>
     <div class="k-bento k-bento-quick">
@@ -134,8 +144,8 @@
 
 <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
 
-<script src="/kairoo-nav.js"></script>
-<script src="/landing/landing.js"></script>
-<script src="/kairoo-ui.js"></script>
+<script src="/kairoo-nav.js?v=20261013a"></script>
+<script src="/landing/landing.js?v=20261013a"></script>
+<script src="/kairoo-ui.js?v=20261013a"></script>
 </body>
 </html>
