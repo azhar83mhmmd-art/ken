@@ -30,7 +30,8 @@
         { href: '/feedback', label: 'Feedback' },
         { href: '/about', label: 'Tentang Kami' },
         { href: '/privacy', label: 'Kebijakan Privasi' },
-        { href: '/terms', label: 'Syarat & Ketentuan' }
+        { href: '/terms', label: 'Syarat & Ketentuan' },
+        { href: 'https://whatsapp.com/channel/0029Vb99yLaK0IBgYkp9KR2q', label: 'Saluran WhatsApp', ext: true }
     ];
 
     function icon(d, size) {
@@ -106,7 +107,7 @@
 
     function buildFooter() {
         var links = FOOTER_LINKS.map(function (l) {
-            return '<a href="' + l.href + '" class="k-footer-link">' + l.label + '</a>';
+            return '<a href="' + l.href + '" class="k-footer-link"' + (l.ext ? ' target="_blank" rel="noopener noreferrer"' : '') + '>' + l.label + '</a>';
         }).join('');
 
         var footer = document.createElement('footer');
