@@ -1,0 +1,251 @@
+[
+  {
+    "name": "Short URL",
+    "endpoint": "/api/tools/shorturl",
+    "filename": "shorturl",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Original URL"
+      },
+      {
+        "name": "alias",
+        "required": false,
+        "description": "Custom Alias"
+      }
+    ]
+  },
+  {
+    "name": "NIK Checker",
+    "endpoint": "/api/tools/nikcheck",
+    "filename": "nikcheck",
+    "method": "GET",
+    "params": [
+      {
+        "name": "nik",
+        "required": true,
+        "description": "16-digit Indonesian NIK"
+      }
+    ]
+  },
+  {
+    "name": "Website Screenshot",
+    "endpoint": "/api/tools/screenshot",
+    "filename": "screenshot",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL website yang ingin di-screenshot"
+      }
+    ]
+  },
+  {
+    "name": "Web Fetcher",
+    "endpoint": "/api/tools/webfetch",
+    "filename": "webfetch",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "URL yang ingin diambil kontennya"
+      }
+    ]
+  },
+  {
+    "name": "Remove Background",
+    "endpoint": "/api/tools/removebg",
+    "filename": "removebg",
+    "method": "GET",
+    "params": [
+      {
+        "name": "url",
+        "required": true,
+        "description": "Link gambar yang ingin dihapus background-nya"
+      }
+    ]
+  },
+  {
+    "name": "Stalk Free Fire",
+    "endpoint": "/api/tools/stalkff",
+    "filename": "stalkff",
+    "method": "GET",
+    "params": [
+      {
+        "name": "uid",
+        "required": true,
+        "description": "UID akun Free Fire"
+      }
+    ]
+  },
+  {
+    "name": "Stalk Mobile Legends",
+    "endpoint": "/api/tools/stalkml",
+    "filename": "stalkml",
+    "method": "GET",
+    "params": [
+      {
+        "name": "id",
+        "required": true,
+        "description": "User ID akun Mobile Legends"
+      },
+      {
+        "name": "server",
+        "required": true,
+        "description": "Server/Zone ID akun Mobile Legends"
+      }
+    ]
+  },
+  {
+    "name": "Stalk Instagram",
+    "endpoint": "/api/tools/stalkig",
+    "filename": "stalkig",
+    "method": "GET",
+    "params": [
+      {
+        "name": "username",
+        "required": true,
+        "description": "Username Instagram (tanpa @)"
+      }
+    ]
+  },
+  {
+    "name": "Text to Speech",
+    "endpoint": "/api/tools/tts",
+    "filename": "tts",
+    "method": "GET",
+    "params": [
+      {
+        "name": "text",
+        "required": true,
+        "description": "Teks yang ingin diubah menjadi suara (maks 2000 karakter)"
+      },
+      {
+        "name": "voice",
+        "required": false,
+        "description": "ShortName voice, default id-ID-GadisNeural. Lihat /api/tools/ttsvoices"
+      },
+      {
+        "name": "rate",
+        "required": false,
+        "description": "Kecepatan bicara, contoh: +10%, -20%, default +0%"
+      },
+      {
+        "name": "pitch",
+        "required": false,
+        "description": "Nada suara, contoh: +5Hz, -10Hz, default +0Hz"
+      }
+    ]
+  },
+  {
+    "name": "TTS Voice List",
+    "endpoint": "/api/tools/ttsvoices",
+    "filename": "ttsvoices",
+    "method": "GET",
+    "params": [
+      {
+        "name": "locale",
+        "required": false,
+        "description": "Filter berdasarkan locale, contoh: id-ID, en-US"
+      },
+      {
+        "name": "q",
+        "required": false,
+        "description": "Cari voice berdasarkan nama"
+      }
+    ]
+  },
+  {
+    "name": "Murotal Reciter List",
+    "endpoint": "/api/tools/murotalreciter",
+    "filename": "murotalreciter",
+    "method": "GET",
+    "params": [
+      {
+        "name": "language",
+        "required": false,
+        "description": "Kode bahasa mp3quran.net, default eng"
+      },
+      {
+        "name": "q",
+        "required": false,
+        "description": "Cari qori berdasarkan nama"
+      }
+    ]
+  },
+  {
+    "name": "Murotal Surah Audio",
+    "endpoint": "/api/tools/murotalsurah",
+    "filename": "murotalsurah",
+    "method": "GET",
+    "params": [
+      {
+        "name": "server",
+        "required": true,
+        "description": "URL server moshaf, ambil dari hasil /api/tools/murotalreciter"
+      },
+      {
+        "name": "surah",
+        "required": true,
+        "description": "Nomor surah 1-114"
+      }
+    ]
+  },
+  {
+    "name": "Google TTS",
+    "endpoint": "/api/tools/ttsgoogle",
+    "filename": "ttsgoogle",
+    "method": "GET",
+    "params": [
+      { "name": "text", "required": true, "description": "Teks yang mau diubah jadi suara, maksimal 2000 karakter" },
+      { "name": "lang", "required": false, "description": "Kode bahasa Google Translate, default 'id'" },
+      { "name": "slow", "required": false, "description": "true untuk suara lambat, default false" }
+    ]
+  },
+  {
+    "name": "Video Upscaler",
+    "endpoint": "/api/tools/upscalevideo",
+    "filename": "upscalevideo",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "URL video yang mau di-upscale, maksimal 40MB" },
+      { "name": "resolution", "required": false, "description": "hd, 2k (default), atau 4k" }
+    ]
+  },
+  {
+    "name": "Short Link (kua.lat)",
+    "endpoint": "/api/tools/shortlink",
+    "filename": "shortlink",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "URL asli yang mau dipendekkan" }
+    ]
+  },
+  {
+    "name": "Audio to Text",
+    "endpoint": "/api/tools/audio2text",
+    "filename": "audio2text",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "URL file audio yang mau ditranskrip, maksimal 40MB" }
+    ]
+  },
+  {
+    "name": "Currency Converter",
+    "endpoint": "/api/tools/currency",
+    "filename": "currency",
+    "method": "GET",
+    "params": [
+      { "name": "mode", "required": false, "description": "convert (default) atau currencies (daftar semua kode mata uang)" },
+      { "name": "from", "required": false, "description": "Kode mata uang asal, default USD" },
+      { "name": "to", "required": false, "description": "Kode mata uang tujuan, default IDR" },
+      { "name": "amount", "required": false, "description": "Jumlah yang dikonversi, default 1" },
+      { "name": "days", "required": false, "description": "Jumlah hari histori grafik, default 30 (2-90)" },
+      { "name": "chart", "required": false, "description": "true (default) atau false - matikan render grafik PNG" }
+    ]
+  }
+]
