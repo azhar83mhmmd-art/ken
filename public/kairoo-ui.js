@@ -7,20 +7,30 @@
  * CATATAN: popup hanya AJAKAN. WhatsApp tidak punya API publik untuk mengecek
  * apakah seseorang sudah follow, jadi tidak ada klaim verifikasi apa pun.
  *
- * Mau popup muncul di SETIAP halaman yang dibuka (bukan sekali per kunjungan)?
- * Ubah SHOW_EVERY_PAGE menjadi true.
+ * Popup tampil tiap kunjungan sampai ditutup/di-follow (lihat HIDE_KEY). Tambah ?wa=1 untuk memaksa tampil.
  */
 (function () {
     'use strict';
 
     var CHANNEL_URL = 'https://whatsapp.com/channel/0029Vb99yLaK0IBgYkp9KR2q';
-    var SHOW_EVERY_PAGE = false;
-    var SESSION_KEY = 'kairoo_wa_popup_shown';
     var SHOW_DELAY = 900;
+    // Popup muncul di SETIAP kunjungan sampai pengunjung menekan "Ikuti Saluran"
+    // (disembunyikan 7 hari) atau "Nanti Saja"/X (disembunyikan 3 jam).
+    // Tambahkan ?wa=1 di URL untuk memaksa popup tampil (buat ngetes).
+    var HIDE_KEY = 'kairoo_wa_hide_until';
+    var HOURS_LATER = 3;
+    var DAYS_FOLLOW = 7;
 
     /* ---------- storage aman ---------- */
-    function ssGet(k) { try { return window.sessionStorage.getItem(k); } catch (e) { return null; } }
-    function ssSet(k, v) { try { window.sessionStorage.setItem(k, v); } catch (e) { /* abaikan */ } }
+    function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+    function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { /* abaikan */ } }
+    function forced() { return /[?&]wa=1(&|$)/.test(location.search); }
+    function hiddenNow() {
+        if (forced()) return false;
+        var until = parseInt(lsGet(HIDE_KEY) || '0', 10);
+        return until && Date.now() < until;
+    }
+    function hideFor(ms) { lsSet(HIDE_KEY, String(Date.now() + ms)); }
 
     /* ---------- CSS (di-inject supaya halaman tanpa theme.css tetap benar) ---------- */
     var css = '' +
@@ -87,6 +97,21 @@
     '.kb-wa-shape.s3{width:20px;height:20px;left:30px;bottom:96px;background:#FACC15;transform:rotate(20deg);animation:kb-float 7s ease-in-out -3s infinite}' +
     '@keyframes kb-float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(14deg)}}' +
 
+
+    '.kb-wa-fab{position:fixed;right:16px;bottom:16px;z-index:9000;display:flex;align-items:center;gap:8px;padding:10px 14px;background:#4ADE80;color:#0A0A0A;' +
+        'border:3px solid #0A0A0A;border-radius:10px;box-shadow:5px 5px 0 #0A0A0A;cursor:pointer;font-family:\"Space Grotesk\",\"Inter\",sans-serif;font-size:13px;font-weight:700;' +
+        'text-transform:uppercase;letter-spacing:.03em;animation:kb-fab-in .7s cubic-bezier(.34,1.56,.64,1) 1.2s backwards,kb-fab-bob 3.6s ease-in-out 2s infinite;' +
+        'transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s,background .15s}' +
+    '.kb-wa-fab svg{width:20px;height:20px}' +
+    '.kb-wa-fab:hover{background:#FACC15;transform:translate(-2px,-2px) rotate(-2deg);box-shadow:7px 7px 0 #0A0A0A}' +
+    '.kb-wa-fab:active{transform:translate(4px,4px);box-shadow:0 0 0 #0A0A0A}' +
+    '@keyframes kb-fab-in{from{opacity:0;transform:translateY(40px) rotate(8deg) scale(.7)}to{opacity:1;transform:none}}' +
+    '@keyframes kb-fab-bob{0%,100%{translate:0 0}50%{translate:0 -5px}}' +
+    '@media (max-width:480px){.kb-wa-fab span{display:none}.kb-wa-fab{padding:11px}}' +
+    '.k-card,.k-btn,.k-quick{transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s cubic-bezier(.22,1,.36,1)}' +
+    '.k-card:hover{transform:translate(-3px,-3px) rotate(-.35deg);box-shadow:9px 9px 0 #0A0A0A}' +
+    '@media (prefers-reduced-motion:reduce){.kb-wa-fab{animation:none}.k-card:hover{transform:none}}' +
+
     '@media (max-width:420px){.kb-wa-title{font-size:21px}.kb-wa-body{padding:22px 18px 20px}.kb-wa-modal{box-shadow:7px 7px 0 #0A0A0A}}' +
     '@media (prefers-reduced-motion:reduce){.kb-wa-badge,.kb-wa-shape{animation:none}.kb-in{animation:none}.kb-pre{opacity:1}}';
 
@@ -106,9 +131,9 @@
     var ICON_ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     var ICON_X = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#0A0A0A" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
-    function initPopup() {
+    function initPopup(manual) {
         if (document.getElementById('kb-wa-overlay')) return;
-        if (!SHOW_EVERY_PAGE && ssGet(SESSION_KEY) === '1') return;
+        if (!manual && hiddenNow()) return;
 
         var overlay = document.createElement('div');
         overlay.id = 'kb-wa-overlay';
@@ -144,7 +169,6 @@
 
         function open() {
             lastFocus = document.activeElement;
-            ssSet(SESSION_KEY, '1');
             document.body.style.overflow = 'hidden';
             // dua frame supaya transisi awal terbaca browser
             requestAnimationFrame(function () {
@@ -175,10 +199,13 @@
             else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
         }
 
-        followBtn.addEventListener('click', function () { setTimeout(close, 150); });
-        laterBtn.addEventListener('click', close);
-        closeBtn.addEventListener('click', close);
-        overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+        // Tombol "Ikuti" membuka saluran di tab baru (link asli, tidak diblokir popup blocker).
+        // Disembunyikan lama karena diasumsikan akan follow - WhatsApp tidak punya API untuk verifikasi.
+        followBtn.addEventListener('click', function () { hideFor(DAYS_FOLLOW * 24 * 3600 * 1000); setTimeout(close, 150); });
+        function later() { hideFor(HOURS_LATER * 3600 * 1000); close(); }
+        laterBtn.addEventListener('click', later);
+        closeBtn.addEventListener('click', later);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) later(); });
         document.addEventListener('keydown', onKey);
 
         open();
@@ -267,11 +294,28 @@
         window.addEventListener('pageshow', function (ev) { if (ev.persisted) document.body.classList.remove('kb-leave'); });
     }
 
+    /* =====================================================
+     * 4. TOMBOL MENGAMBANG SALURAN WHATSAPP (selalu ada, buka popup kapan saja)
+     * ===================================================== */
+    function initFab() {
+        if (document.getElementById('kb-wa-fab')) return;
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.id = 'kb-wa-fab';
+        b.className = 'kb-wa-fab';
+        b.setAttribute('aria-label', 'Ikuti Saluran WhatsApp');
+        b.innerHTML = ICON_WA + '<span>Saluran WA</span>';
+        b.addEventListener('click', function () { initPopup(true); });
+        document.body.appendChild(b);
+    }
+
     function init() {
+        if (!document.body) return;
         injectCss();
         initReveal();
         initLeave();
-        setTimeout(initPopup, SHOW_DELAY);
+        initFab();
+        setTimeout(function () { initPopup(false); }, SHOW_DELAY);
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
