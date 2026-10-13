@@ -1,0 +1,5 @@
+.k-page-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
+.k-logs-toolbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.k-logs-search{max-width:320px;}
+#logs-tbody tr{animation:k-row-in .4s var(--ease) both;}
+@keyframes k-row-in{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:none;}}
