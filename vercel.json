@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "{dist/**,node_modules/@napi-rs/canvas*/**}",
+      "maxDuration": 20,
+      "memory": 1024
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/landing/landing.html"
+    },
+    {
+      "source": "/docs",
+      "destination": "/docs/docs.html"
+    },
+    {
+      "source": "/logs",
+      "destination": "/logs/logs.html"
+    },
+    {
+      "source": "/status",
+      "destination": "/status/status.html"
+    },
+    {
+      "source": "/monitor",
+      "destination": "/monitor/monitor.html"
+    },
+    {
+      "source": "/feedback",
+      "destination": "/feedback/feedback.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/about.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms/terms.html"
+    },
+    {
+      "source": "/stats",
+      "destination": "/stats/stats.html"
+    },
+    {
+      "source": "/premium",
+      "destination": "/premium/premium.html"
+    },
+    {
+      "source": "/premium-assets/:path*",
+      "destination": "/premium/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ]
+}
