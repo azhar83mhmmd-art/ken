@@ -1,0 +1,141 @@
+[
+  {
+    "name": "Unggah.web.id",
+    "endpoint": "/api/upload/unggah",
+    "filename": "unggah",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "AceImg",
+    "endpoint": "/api/upload/aceimg",
+    "filename": "aceimg",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link gambar yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "File-Kiwi",
+    "endpoint": "/api/upload/filekiwi",
+    "filename": "filekiwi",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Shz.al",
+    "endpoint": "/api/upload/shz",
+    "filename": "shz",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" },
+      { "name": "expire", "required": false, "description": "Masa berlaku file, contoh: 1h, 1d, 7d (default 1d)" }
+    ]
+  },
+  {
+    "name": "Kappa.lol",
+    "endpoint": "/api/upload/kappa",
+    "filename": "kappa",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Upload.ee",
+    "endpoint": "/api/upload/uploadee",
+    "filename": "uploadee",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Pone.rs",
+    "endpoint": "/api/upload/pone",
+    "filename": "pone",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Leopard Hosting",
+    "endpoint": "/api/upload/leopard",
+    "filename": "leopard",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Catbox",
+    "endpoint": "/api/upload/catbox",
+    "filename": "catbox",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" },
+      { "name": "userhash", "required": false, "description": "User hash Catbox (opsional, untuk akun terdaftar)" }
+    ]
+  },
+  {
+    "name": "Uguu.se",
+    "endpoint": "/api/upload/uguu",
+    "filename": "uguu",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Top4Top",
+    "endpoint": "/api/upload/top4top",
+    "filename": "top4top",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link gambar yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "Litterbox",
+    "endpoint": "/api/upload/litterbox",
+    "filename": "litterbox",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" },
+      { "name": "expire", "required": false, "description": "Masa berlaku: 1h, 12h, 24h, atau 72h (default 1h)" }
+    ]
+  },
+  {
+    "name": "KrakenFiles",
+    "endpoint": "/api/upload/krakenfiles",
+    "filename": "krakenfiles",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "8upload",
+    "endpoint": "/api/upload/8upload",
+    "filename": "upload8",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link gambar yang ingin di-upload" }
+    ]
+  },
+  {
+    "name": "TmpFiles",
+    "endpoint": "/api/upload/tmpfiles",
+    "filename": "tmpfiles",
+    "method": "GET",
+    "params": [
+      { "name": "url", "required": true, "description": "Link file yang ingin di-upload" },
+      { "name": "expire", "required": false, "description": "Masa berlaku dalam detik, 60-172800 (default 21600)" }
+    ]
+  }
+]
