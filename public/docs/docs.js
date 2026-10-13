@@ -41,12 +41,19 @@ async function init() {
     });
 
     try {
+        const t0 = performance.now();
         const response = await fetch("/config");
         globalConfig = await response.json();
+        const ping = Math.round(performance.now() - t0);
 
         setUi(globalConfig);
         buildSidebarTree(globalConfig.tags);
         renderIntro(globalConfig);
+        updateHeroStats(globalConfig, ping);
+        setupFilters();
+        setupHeroButtons();
+        handleDeepLink();
+        window.addEventListener("hashchange", handleDeepLink);
         startWIBClock();
         initBattery();
         initDevice();
@@ -57,6 +64,156 @@ async function init() {
             <span class="text-red-400 font-bold">SYSTEM FAILURE</span><br>
             ${e.message}
         `;
+    }
+}
+
+/* ===================== v4 helpers ===================== */
+function escHtml(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+}
+
+const CAT_ICONS = {
+    ai: "fa-robot", download: "fa-cloud-arrow-down", info: "fa-circle-info",
+    maker: "fa-wand-magic-sparkles", music: "fa-music", random: "fa-shuffle",
+    search: "fa-magnifying-glass", tools: "fa-screwdriver-wrench", upload: "fa-cloud-arrow-up",
+    stalk: "fa-user-secret", anime: "fa-face-smile-beam", game: "fa-gamepad", news: "fa-newspaper"
+};
+
+function catIcon(cat) {
+    return CAT_ICONS[String(cat).toLowerCase()] || "fa-folder";
+}
+
+function methodClassOf(method) {
+    return method === "GET" ? "get" : method === "POST" ? "post" : method === "DELETE" ? "delete" : "other";
+}
+
+function updateHeroStats(config, ping) {
+    const tags = config.tags || {};
+    const cats = Object.keys(tags);
+    const total = cats.reduce((n, c) => n + (Array.isArray(tags[c]) ? tags[c].length : 0), 0);
+    const e = document.getElementById("doc-stat-endpoints");
+    const c = document.getElementById("doc-stat-cats");
+    const p = document.getElementById("doc-stat-ping");
+    if (e) e.textContent = String(total);
+    if (c) c.textContent = String(cats.length);
+    if (p) p.textContent = ping + "ms";
+}
+
+function setupHeroButtons() {
+    const b = document.getElementById("hero-browse");
+    if (b) b.addEventListener("click", openSidebar);
+}
+
+let activeMethod = "all";
+
+function setupFilters() {
+    const wrap = document.getElementById("method-filters");
+    if (!wrap) return;
+    wrap.addEventListener("click", e => {
+        const btn = e.target.closest(".chip-btn");
+        if (!btn) return;
+        activeMethod = btn.getAttribute("data-method") || "all";
+        wrap.querySelectorAll(".chip-btn").forEach(b => b.classList.toggle("active", b === btn));
+        applyFilter();
+    });
+}
+
+window.openCategory = cat => {
+    openSidebar();
+    const catId = `cat-${String(cat).replace(/\s+/g, "-")}`;
+    const files = document.getElementById(`files-${catId}`);
+    const arrow = document.getElementById(`arrow-${catId}`);
+    if (!files) return;
+    files.classList.remove("hidden");
+    if (arrow) arrow.classList.add("rotate-180");
+    setTimeout(() => {
+        const wrap = files.closest(".folder-wrap");
+        if (wrap) wrap.scrollIntoView({ block: "start", behavior: "smooth" });
+    }, 120);
+};
+
+function handleDeepLink() {
+    const h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+    if (!h) return;
+    if (h.startsWith("ep=")) {
+        const id = h.slice(3);
+        if (routesById[id]) selectEndpoint(id);
+    } else if (h.startsWith("cat=")) {
+        window.openCategory(h.slice(4));
+    }
+}
+
+window.copyBlock = (id, btn) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.innerText || el.textContent || "";
+    const done = () => {
+        if (btn) {
+            const old = btn.innerHTML;
+            btn.classList.add("done");
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin';
+            setTimeout(() => { btn.classList.remove("done"); btn.innerHTML = old; }, 1600);
+        }
+        messeg("KODE DISALIN");
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(done);
+    } else {
+        const ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta); done();
+    }
+};
+
+window.copyLink = id => {
+    const url = location.origin + location.pathname + "#ep=" + encodeURIComponent(id);
+    if (navigator.clipboard) navigator.clipboard.writeText(url);
+    messeg("LINK DISALIN");
+};
+
+function applyFilter() {
+    const input = document.getElementById("search-input");
+    const noResults = document.getElementById("no-results");
+    const val = (input ? input.value : "").toLowerCase().trim();
+    const m = activeMethod;
+    const filtering = val !== "" || m !== "all";
+    let anyVisible = false;
+
+    document.querySelectorAll(".folder-wrap").forEach(w => {
+        const files = w.querySelector(".folder-files");
+        const arrow = w.querySelector(".folder-arrow");
+        let match = 0;
+
+        w.querySelectorAll(".file-item").forEach(f => {
+            const okText = !val || (f.getAttribute("data-search") || "").includes(val);
+            const okMethod = m === "all" || f.getAttribute("data-method") === m;
+            const ok = okText && okMethod;
+            f.classList.toggle("hidden", !ok);
+            if (ok) match++;
+        });
+
+        if (!filtering) {
+            w.classList.remove("hidden");
+            files.classList.add("hidden");
+            arrow.classList.remove("rotate-180");
+            anyVisible = true;
+        } else if (match > 0) {
+            w.classList.remove("hidden");
+            files.classList.remove("hidden");
+            arrow.classList.add("rotate-180");
+            anyVisible = true;
+        } else {
+            w.classList.add("hidden");
+        }
+    });
+
+    if (noResults) {
+        noResults.classList.toggle("hidden", anyVisible);
+        noResults.classList.toggle("flex", !anyVisible);
     }
 }
 
@@ -368,6 +525,9 @@ window.switchLangTab = lang => {
         code.innerText = exampleSnippets[lang] || "";
     }
 
+    const lbl = document.getElementById("example-lang");
+    if (lbl) lbl.textContent = langLabel(lang);
+
     document.querySelectorAll(".lang-tab").forEach(tab => {
         tab.classList.toggle(
             "active",
@@ -521,127 +681,99 @@ function renderIntro(config) {
         )
         .join("");
 
-    el.innerHTML = `
-        <div class="mb-5">
-            <h2
-                class="font-black text-xl"
-                style="color:#0A0A0A"
-            >
-                Introduction
-            </h2>
+    const catCards = cats
+        .map(cat => {
+            const n = (config.tags[cat] || []).length;
+            return `
+                <button type="button" class="doc-cat" data-cat="${escHtml(cat)}">
+                    <span class="ic"><i class="fa-solid ${catIcon(cat)}"></i></span>
+                    <b>${escHtml(cat)}</b>
+                    <small>${n} endpoint</small>
+                </button>
+            `;
+        })
+        .join("");
 
-            <p
-                class="text-xs font-bold"
-                style="color:#3A3A3A"
-            >
-                Quick guide to using ${apiName}
-            </p>
+    el.innerHTML = `
+        <div class="flex items-center gap-4 mb-5">
+            <div class="intro-icon shrink-0"><i class="fa-solid fa-book-open"></i></div>
+            <div class="min-w-0">
+                <h2 class="font-black text-xl leading-tight" style="color:#0A0A0A">Introduction</h2>
+                <p class="text-xs font-bold" style="color:#3A3A3A">Panduan singkat memakai ${escHtml(apiName)}</p>
+            </div>
         </div>
 
-        <p
-            class="text-sm leading-relaxed font-semibold mb-6"
-            style="color:#2B2B2B"
-        >
-            Welcome to the ${apiName} documentation.
-            Open the menu in the top-left corner to browse
-            endpoints grouped by category, then select one
-            to view its details and try it out directly from here.
+        <p class="text-sm leading-relaxed font-semibold mb-6" style="color:#2B2B2B">
+            Selamat datang di dokumentasi ${escHtml(apiName)}. Pilih kategori di bawah,
+            atau tekan <b>Ctrl&nbsp;K</b> (di HP: tombol <i class="fa-solid fa-magnifying-glass text-[11px]"></i>) untuk mencari endpoint,
+            lalu coba langsung dari halaman ini.
         </p>
 
-        <h3
-            class="font-black text-sm mb-2"
-            style="color:#0A0A0A"
-        >
-            Example Usage
-        </h3>
+        <h3 class="doc-h3">Kategori</h3>
+        <div class="doc-cats">${catCards}</div>
 
-        <div class="lang-tabs">
-            ${tabsHtml}
+        <h3 class="doc-h3">Contoh Penggunaan</h3>
+
+        <div class="lang-tabs">${tabsHtml}</div>
+
+        <div class="code-wrap">
+            <span class="code-lang-label" id="example-lang">cURL</span>
+            <button type="button" class="code-copy" onclick="copyBlock('example-code', this)"><i class="fa-regular fa-copy"></i> Salin</button>
+            <div class="intro-code" id="example-code"></div>
         </div>
 
-        <div
-            class="intro-code"
-            id="example-code"
-        ></div>
+        <h3 class="doc-h3">Format Respons</h3>
 
-        <h3
-            class="font-black text-sm mb-2"
-            style="color:#0A0A0A"
-        >
-            Response Format
-        </h3>
-
-        <div class="resp-examples">
+        <div class="resp-examples" style="margin-top:6px">
             <div class="resp-card">
                 <div class="resp-head">
-                    <span class="resp-badge ok">
-                        200 OK
-                    </span>
-                    <span class="resp-label">
-                        Success
-                    </span>
+                    <span class="resp-badge ok">200 OK</span>
+                    <span class="resp-label">Success</span>
                 </div>
-
-                <div
-                    class="resp-code"
-                    id="resp-success"
-                ></div>
+                <div class="code-wrap" style="margin:0">
+                    <button type="button" class="code-copy" onclick="copyBlock('resp-success', this)"><i class="fa-regular fa-copy"></i></button>
+                    <div class="resp-code" id="resp-success"></div>
+                </div>
             </div>
 
             <div class="resp-card">
                 <div class="resp-head">
-                    <span class="resp-badge err">
-                        500 Internal Server Error
-                    </span>
-                    <span class="resp-label">
-                        Error
-                    </span>
+                    <span class="resp-badge err">500 Internal Server Error</span>
+                    <span class="resp-label">Error</span>
                 </div>
-
-                <div
-                    class="resp-code"
-                    id="resp-error"
-                ></div>
+                <div class="code-wrap" style="margin:0">
+                    <button type="button" class="code-copy" onclick="copyBlock('resp-error', this)"><i class="fa-regular fa-copy"></i></button>
+                    <div class="resp-code" id="resp-error"></div>
+                </div>
             </div>
 
             <div class="resp-card">
                 <div class="resp-head">
-                    <span class="resp-badge limit">
-                        429 Too Many Requests
-                    </span>
-                    <span class="resp-label">
-                        Rate Limited
-                    </span>
+                    <span class="resp-badge limit">429 Too Many Requests</span>
+                    <span class="resp-label">Rate Limited</span>
                 </div>
-
-                <div
-                    class="resp-code"
-                    id="resp-ratelimit"
-                ></div>
+                <div class="code-wrap" style="margin:0">
+                    <button type="button" class="code-copy" onclick="copyBlock('resp-ratelimit', this)"><i class="fa-regular fa-copy"></i></button>
+                    <div class="resp-code" id="resp-ratelimit"></div>
+                </div>
             </div>
         </div>
 
-        <h3
-            class="font-black text-sm mb-2 mt-6"
-            style="color:#0A0A0A"
-        >
-            Status Codes
-        </h3>
+        <h3 class="doc-h3" style="margin-top:26px">Status Codes</h3>
 
-        <table class="status-table">
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Status</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                ${rowsHtml}
-            </tbody>
-        </table>
+        <div class="status-table-wrap">
+            <table class="status-table">
+                <thead>
+                    <tr><th>Code</th><th>Status</th><th>Description</th></tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+            </table>
+        </div>
     `;
+
+    el.querySelectorAll(".doc-cat").forEach(btn => {
+        btn.addEventListener("click", () => window.openCategory(btn.getAttribute("data-cat")));
+    });
 
     document.getElementById("example-code").innerText =
         exampleSnippets.curl;
@@ -749,6 +881,7 @@ function buildSidebarTree(tags) {
 
             btn.className = "file-item";
             btn.id = `file-${id}`;
+            btn.setAttribute("data-method", methodClass);
 
             btn.setAttribute(
                 "data-search",
@@ -818,6 +951,8 @@ function selectEndpoint(id) {
 
     closeSidebar();
     scrollToEndpointView();
+
+    try { history.replaceState(null, "", "#ep=" + encodeURIComponent(id)); } catch (e) {}
 }
 
 /*
@@ -865,6 +1000,9 @@ window.backToIntro = () => {
     document
         .getElementById("sidebar-intro-btn")
         .classList.add("active");
+
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 function renderEndpointCard(route, id) {
@@ -888,7 +1026,7 @@ function renderEndpointCard(route, id) {
 
     if (route.params?.length) {
         inputs = `
-            <div class="grid gap-3 px-5 pb-5">
+            <div class="grid gap-3 px-4 sm:px-[18px] pb-5">
                 ${route.params
                     .map(
                         param => `
@@ -912,7 +1050,7 @@ function renderEndpointCard(route, id) {
                                         param.description ||
                                         "Masukkan nilai..."
                                     }"
-                                    class="clay-input"
+                                    class="clay-input" inputmode="text" autocomplete="off" autocapitalize="off"
                                 >
                             </div>
                         `
@@ -931,131 +1069,110 @@ function renderEndpointCard(route, id) {
                     ? "delete"
                     : "other";
 
+    const stripe = { get: "#93C5FD", post: "#4ADE80", delete: "#FCA5A5", other: "#FDE047" }[methodClass];
+    const origin = window.location.origin;
+    const paramList = route.params || [];
+    const reqCount = paramList.filter(p => p.required).length;
+
+    const curlParams = paramList.map(p => p.name);
+    const curlSnippet = route.method === "GET"
+        ? `curl -X GET "${origin}${route.endpoint}${curlParams.length ? "?" + curlParams.map(n => `${n}=VALUE`).join("&") : ""}"`
+        : `curl -X ${route.method} "${origin}${route.endpoint}" \\\n  -H "Content-Type: application/json" \\\n  -d '${JSON.stringify(Object.fromEntries(curlParams.map(n => [n, "VALUE"])))}'`;
+    const jsSnippet = route.method === "GET"
+        ? `const res = await fetch("${origin}${route.endpoint}${curlParams.length ? "?" + curlParams.map(n => `${n}=VALUE`).join("&") : ""}");\nconst data = await res.json();\nconsole.log(data);`
+        : `const res = await fetch("${origin}${route.endpoint}", {\n  method: "${route.method}",\n  headers: { "Content-Type": "application/json" },\n  body: JSON.stringify(${JSON.stringify(Object.fromEntries(curlParams.map(n => [n, "VALUE"])))})\n});\nconst data = await res.json();\nconsole.log(data);`;
+
     ev.innerHTML = `
-        <button
-            class="back-btn w-fit"
-            onclick="backToIntro()"
-        >
-            <i class="fa-solid fa-arrow-left"></i>
-            Semua Endpoint
-        </button>
+        <div class="flex flex-wrap items-center gap-3">
+            <button class="back-btn w-fit" onclick="backToIntro()">
+                <i class="fa-solid fa-arrow-left"></i>
+                Semua Endpoint
+            </button>
 
-        <div class="ep-card reveal in">
-            <div class="p-5">
-                <div
-                    class="flex items-center gap-2 mb-3 text-[11px] font-bold"
-                    style="color:#15803D"
-                >
-                    <i class="fa-solid fa-folder text-[10px]"></i>
-                    <span>${route.cat}</span>
-                </div>
+            <button class="back-btn w-fit" style="background:#fff" onclick="copyLink('${id}')" title="Salin link endpoint ini">
+                <i class="fa-solid fa-link"></i>
+                <span class="hidden sm:inline">Salin Link</span>
+            </button>
+        </div>
 
-                <div class="flex items-center gap-3">
-                    <span class="method-badge ${methodClass}">
-                        ${route.method}
-                    </span>
+        <div class="ep-card reveal in ep-enter">
+            <div style="height:10px;background:${stripe};border-bottom:3px solid #0A0A0A"></div>
 
-                    <div class="flex flex-col min-w-0">
-                        <code
-                            class="font-bold text-[13px] truncate"
-                            style="color:#0A0A0A"
-                        >
-                            ${route.endpoint}
-                        </code>
+            <div class="ep-head">
+                <span class="method-badge ${methodClass}">${escHtml(route.method)}</span>
 
-                        <span
-                            class="text-[11px] font-semibold truncate"
-                            style="color:#3A3A3A"
-                        >
-                            ${route.name}
-                        </span>
+                <div class="flex flex-col min-w-0 flex-1">
+                    <span class="font-black text-base leading-tight break-words" style="color:#0A0A0A">${escHtml(route.name)}</span>
+
+                    <div class="ep-meta">
+                        <span class="ep-tag cat"><i class="fa-solid ${catIcon(route.cat)} text-[10px]"></i>${escHtml(route.cat)}</span>
+                        <span class="ep-tag">${paramList.length} parameter</span>
+                        ${reqCount ? `<span class="ep-tag req">${reqCount} wajib</span>` : ""}
                     </div>
+
+                    <code class="ep-url font-mono">${escHtml(route.endpoint)}</code>
                 </div>
             </div>
 
             ${inputs}
 
-            <div
-                class="px-5 pb-5 flex gap-3 items-center border-t pt-4"
-                style="border-color:#0A0A0A"
-            >
+            <details class="ep-section">
+                <summary><i class="fa-solid fa-code text-xs"></i> Contoh kode</summary>
+                <div class="code-wrap">
+                    <span class="code-lang-label">cURL</span>
+                    <button type="button" class="code-copy" onclick="copyBlock('curl-${id}', this)"><i class="fa-regular fa-copy"></i> Salin</button>
+                    <div class="intro-code" id="curl-${id}"></div>
+                </div>
+                <div class="code-wrap">
+                    <span class="code-lang-label">JavaScript</span>
+                    <button type="button" class="code-copy" onclick="copyBlock('js-${id}', this)"><i class="fa-regular fa-copy"></i> Salin</button>
+                    <div class="intro-code" id="js-${id}"></div>
+                </div>
+            </details>
+
+            <div class="exec-bar">
                 <button
                     id="btn-exec-${id}"
                     onclick="testReq(this,'${route.endpoint}','${route.method}','${id}')"
-                    class="clay-btn flex-1 h-11 text-[12px] tracking-wide"
+                    class="clay-btn tracking-wide"
                 >
                     <i class="fa-solid fa-play text-xs"></i>
                     EXECUTE
                 </button>
 
-                <button
-                    onclick="copy('${copyUrl}')"
-                    class="clay-icon-btn"
-                    title="Copy URL"
-                >
+                <button onclick="copy('${copyUrl}')" class="clay-icon-btn" title="Copy URL" aria-label="Salin URL">
                     <i class="fa-regular fa-copy"></i>
                 </button>
             </div>
 
-            <div
-                id="res-area-${id}"
-                class="hidden mx-5 mb-5 rounded-2xl overflow-hidden clay-console-screen"
-            >
-                <div
-                    class="flex justify-between items-center px-4 py-2.5 border-b border-white/10"
-                >
+            <div id="res-area-${id}" class="hidden res-area-wrap clay-console-screen">
+                <div class="flex justify-between items-center px-4 py-2.5 border-b border-white/10">
                     <div class="flex items-center gap-2">
-                        <span
-                            id="status-dot-${id}"
-                            class="status-dot status-waiting"
-                        ></span>
-
-                        <span
-                            id="status-${id}"
-                            class="text-slate-400 font-bold font-mono text-[10px]"
-                        >
-                            WAITING
-                        </span>
+                        <span id="status-dot-${id}" class="status-dot status-waiting"></span>
+                        <span id="status-${id}" class="text-slate-400 font-bold font-mono text-[10px]">WAITING</span>
                     </div>
 
-                    <span
-                        id="time-${id}"
-                        class="text-slate-500 font-mono text-[10px]"
-                    >
-                        --ms
-                    </span>
+                    <span id="time-${id}" class="text-slate-500 font-mono text-[10px]">--ms</span>
                 </div>
 
-                <div class="flex justify-end gap-3 px-4 pt-2">
-                    <a
-                        id="dl-btn-${id}"
-                        class="hidden text-emerald-400 text-xs"
-                    >
-                        <i class="fa-solid fa-download"></i>
-                    </a>
-
-                    <button
-                        onclick="copyRes('${id}')"
-                        class="text-sky-400 text-xs"
-                    >
-                        <i class="fa-regular fa-clone"></i>
-                    </button>
-
-                    <button
-                        onclick="reset('${id}')"
-                        class="text-rose-400 text-xs"
-                    >
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                <div class="flex justify-end gap-4 px-4 pt-2">
+                    <a id="dl-btn-${id}" class="hidden text-emerald-400 text-sm" aria-label="Unduh"><i class="fa-solid fa-download"></i></a>
+                    <button onclick="copyRes('${id}')" class="text-sky-400 text-sm" aria-label="Salin respons"><i class="fa-regular fa-clone"></i></button>
+                    <button onclick="reset('${id}')" class="text-rose-400 text-sm" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <div
                     id="output-${id}"
-                    class="font-mono text-[11px] overflow-x-auto whitespace-pre-wrap break-all max-h-[300px] p-4 text-slate-300 leading-relaxed"
+                    class="font-mono text-[11px] overflow-x-auto whitespace-pre-wrap break-all max-h-[320px] overflow-y-auto p-4 text-slate-300 leading-relaxed"
                 ></div>
             </div>
         </div>
     `;
+
+    const curlEl = document.getElementById(`curl-${id}`);
+    const jsEl = document.getElementById(`js-${id}`);
+    if (curlEl) curlEl.textContent = curlSnippet;
+    if (jsEl) jsEl.textContent = jsSnippet;
 }
 
 function setupSidebarEvents() {
@@ -1090,7 +1207,15 @@ function openSidebar() {
         .getElementById("sidebar")
         .setAttribute("aria-hidden", "false");
 
-    document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("kb-lock");
+
+    requestAnimationFrame(() => {
+        const tree = document.getElementById("sidebar-tree");
+        if (!tree) return;
+        const active = tree.querySelector(".file-item.active");
+        if (active) active.scrollIntoView({ block: "center" });
+        else tree.scrollTop = 0;
+    });
 }
 
 function closeSidebar() {
@@ -1107,71 +1232,15 @@ function closeSidebar() {
         .getElementById("sidebar")
         .setAttribute("aria-hidden", "true");
 
-    document.body.style.overflow = "";
+    document.documentElement.classList.remove("kb-lock");
 }
 
 function setSearch() {
     const input = document.getElementById("search-input");
-    const noResults = document.getElementById("no-results");
 
     if (!input) return;
 
-    input.addEventListener("input", e => {
-        const val = e.target.value.toLowerCase().trim();
-        const wraps = document.querySelectorAll(".folder-wrap");
-
-        if (val === "") {
-            wraps.forEach(w => {
-                w.classList.remove("hidden");
-
-                w.querySelectorAll(".file-item").forEach(f => {
-                    f.classList.remove("hidden");
-                });
-
-                w.querySelector(".folder-files").classList.add("hidden");
-                w.querySelector(".folder-arrow").classList.remove("rotate-180");
-            });
-
-            if (noResults) {
-                noResults.classList.add("hidden");
-            }
-
-            return;
-        }
-
-        let anyVisible = false;
-
-        wraps.forEach(w => {
-            const files = w.querySelector(".folder-files");
-            const arrow = w.querySelector(".folder-arrow");
-            let match = 0;
-
-            w.querySelectorAll(".file-item").forEach(f => {
-                const text = f.getAttribute("data-search");
-
-                if (text.includes(val)) {
-                    f.classList.remove("hidden");
-                    match++;
-                } else {
-                    f.classList.add("hidden");
-                }
-            });
-
-            if (match > 0) {
-                w.classList.remove("hidden");
-                files.classList.remove("hidden");
-                arrow.classList.add("rotate-180");
-                anyVisible = true;
-            } else {
-                w.classList.add("hidden");
-            }
-        });
-
-        if (noResults) {
-            noResults.classList.toggle("hidden", anyVisible);
-            noResults.classList.toggle("flex", !anyVisible);
-        }
-    });
+    input.addEventListener("input", applyFilter);
 }
 
 window.copy = text => {
@@ -1232,8 +1301,10 @@ window.testReq = async (btn, url, method, id) => {
     const originalBtnText = btn.innerHTML;
 
     btn.disabled = true;
+    btn.classList.add("loading");
     btn.innerHTML = `
-        <i class="fa-solid fa-circle-notch fa-spin"></i>
+        <i class="fa-solid fa-circle-notch"></i>
+        <span>RUNNING</span>
     `;
 
     document
@@ -1364,7 +1435,11 @@ window.testReq = async (btn, url, method, id) => {
         );
     } finally {
         btn.disabled = false;
+        btn.classList.remove("loading");
         btn.innerHTML = originalBtnText;
+
+        const area = document.getElementById(`res-area-${id}`);
+        if (area) area.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 };
 
