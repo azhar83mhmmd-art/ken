@@ -1,0 +1,87 @@
+/* Landing (Beranda) — Neo Brutalism. Token dari /theme.css */
+
+.hidden{display:none !important;}
+
+.k-loader{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.k-loader-dot{
+    width:46px;height:46px;background:var(--accent-2);border:var(--bw) solid var(--ink);
+    box-shadow:5px 5px 0 var(--ink);animation:k-flip 1.1s var(--ease) infinite;
+}
+@keyframes k-flip{
+    0%{transform:rotate(0) scale(1);background:var(--accent-2);}
+    50%{transform:rotate(180deg) scale(.8);background:var(--accent-3);}
+    100%{transform:rotate(360deg) scale(1);background:var(--accent-2);}
+}
+
+.k-page-tight{padding:30px 0;}
+
+/* ---------- hero ---------- */
+.k-hero{padding:68px 20px 36px;text-align:left;position:relative;isolation:isolate;}
+
+.k-hero::before,.k-hero::after{content:"";position:absolute;border:var(--bw) solid var(--ink);z-index:-1;}
+.k-hero::before{
+    width:84px;height:84px;right:6%;top:46px;background:var(--accent-3);border-radius:50%;
+    box-shadow:5px 5px 0 var(--ink);animation:k-float 6s ease-in-out infinite;
+}
+.k-hero::after{
+    width:64px;height:64px;right:16%;top:150px;background:var(--accent-4);
+    box-shadow:5px 5px 0 var(--ink);animation:k-float 7s ease-in-out -2s infinite reverse;
+}
+@keyframes k-float{
+    0%,100%{transform:translateY(0) rotate(0);}
+    50%{transform:translateY(-16px) rotate(12deg);}
+}
+@media (max-width:640px){.k-hero::before,.k-hero::after{opacity:.35;}}
+
+.k-hero-badge{
+    display:inline-flex;align-items:center;gap:9px;padding:7px 14px;
+    border:var(--bw) solid var(--ink);background:var(--accent);color:#fff;
+    font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    box-shadow:4px 4px 0 var(--ink);margin-bottom:22px;transform:rotate(-1.5deg);
+    text-shadow:1px 1px 0 var(--ink);
+}
+.k-hero-badge .k-brand-dot{width:14px;height:14px;box-shadow:none;background:var(--accent-2);}
+
+.k-hero-desc{max-width:580px;margin-top:20px;font-size:17px;}
+.k-hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;margin-bottom:26px;}
+
+/* hero anim masuk berurutan */
+#content:not(.hidden) .k-hero > *{animation:k-rise .7s var(--ease) both;}
+#content:not(.hidden) .k-hero > *:nth-child(1){animation-delay:.05s;}
+#content:not(.hidden) .k-hero > *:nth-child(2){animation-delay:.14s;}
+#content:not(.hidden) .k-hero > *:nth-child(3){animation-delay:.23s;}
+#content:not(.hidden) .k-hero > *:nth-child(4){animation-delay:.32s;}
+#content:not(.hidden) .k-hero > *:nth-child(5){animation-delay:.41s;}
+@keyframes k-rise{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+
+/* ---------- ticker ---------- */
+.k-ticker{
+    overflow:hidden;background:var(--ink);color:var(--accent-2);
+    border-top:var(--bw) solid var(--ink);border-bottom:var(--bw) solid var(--ink);
+    transform:rotate(-1deg);margin:26px -10px;
+}
+.k-ticker-track{
+    display:flex;gap:34px;width:max-content;padding:12px 0;
+    font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+    animation:k-marquee 26s linear infinite;
+}
+.k-ticker-track span:nth-child(even){color:var(--accent-3);}
+.k-ticker:hover .k-ticker-track{animation-play-state:paused;}
+@keyframes k-marquee{to{transform:translateX(-50%);}}
+
+/* ---------- quick access ---------- */
+.k-quick{
+    display:flex;flex-direction:column;align-items:flex-start;gap:14px;
+    font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.03em;
+}
+.k-quick svg{
+    width:42px;height:42px;padding:9px;color:var(--ink);background:var(--card);
+    border:var(--bw) solid var(--ink);border-radius:var(--radius-sm);box-shadow:3px 3px 0 var(--ink);
+    transition:transform .35s var(--spring);
+}
+.k-quick:hover svg{transform:rotate(-10deg) scale(1.12);}
+
+@media (max-width:560px){
+    .k-hero{padding:46px 16px 28px;}
+    .k-hero-cta .k-btn{flex:1;}
+}
