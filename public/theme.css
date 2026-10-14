@@ -173,10 +173,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     position:fixed;top:0;right:0;bottom:0;width:min(310px,86vw);
     background:var(--paper);border-left:var(--bw) solid var(--ink);
     box-shadow:-8px 0 0 var(--ink);
-    transform:translateX(110%);transition:transform .45s var(--ease);
-    z-index:61;display:flex;flex-direction:column;padding:16px;overflow-y:auto;
+    /* Tertutup: tetap DI DALAM viewport (disembunyikan lewat clip-path), bukan
+       digeser keluar layar dengan translateX — elemen di luar layar membuat
+       halaman melebar & bisa digeser ke samping di Chrome Android. */
+    visibility:hidden;clip-path:inset(0 0 0 100%);
+    transition:clip-path .45s var(--ease),visibility 0s linear .45s;
+    z-index:61;display:flex;flex-direction:column;padding:16px;overflow-y:auto;overflow-x:hidden;
 }
-.k-nav-drawer.open{transform:translateX(0);}
+.k-nav-drawer.open{visibility:visible;clip-path:inset(0 0 0 -24px);transition:clip-path .45s var(--ease),visibility 0s;}
 
 .k-nav-drawer-head{
     display:flex;align-items:center;justify-content:space-between;
@@ -404,7 +408,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     transform:rotate(-1deg);box-shadow:3px 3px 0 var(--accent);
 }
 .k-lead{color:var(--text-2);font-size:15.5px;line-height:1.7;font-weight:500;}
-.k-page{padding:40px 0 20px;}
+.k-page{padding-top:40px;padding-bottom:20px;}
 
 /* ===================== TOAST ===================== */
 
@@ -421,8 +425,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* =====================================================================
  *  v4 — responsif + sentuhan modern (berlaku di semua halaman)
  * ===================================================================== */
-html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px);}
-body{min-height:100vh;min-height:100dvh;-webkit-tap-highlight-color:transparent;overflow-x:hidden;}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px);max-width:100%;overflow-x:hidden;}
+@supports (overflow:clip){html,body{overflow-x:clip;}}
+body{min-height:100vh;min-height:100dvh;-webkit-tap-highlight-color:transparent;max-width:100%;}
 img,svg,video,canvas{max-width:100%;}
 h1,h2,h3,p,li,td,th{overflow-wrap:anywhere;}
 
@@ -490,7 +495,7 @@ h1,h2,h3,p,li,td,th{overflow-wrap:anywhere;}
 .k-input,.k-textarea,.k-select,input,textarea,select{max-width:100%;}
 input,textarea,select{font-size:max(16px,1em);} /* cegah zoom otomatis iOS/Android saat fokus */
 @media (max-width:640px){
-    .k-page{padding:26px 0 12px;}
+    .k-page{padding-top:26px;padding-bottom:12px;}
     .k-page-head{flex-direction:column;align-items:stretch;gap:12px;}
     .k-h1{font-size:clamp(28px,10vw,40px) !important;line-height:1.05;}
     .k-hero{padding:34px 16px 24px;}
