@@ -77,6 +77,7 @@ const checkDatabase = async (): Promise<{ status: HealthStatus; responseTime: nu
 };
 
 export async function statusHealthHandler(req: Request, res: Response) {
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
     const requestStart = Date.now();
 
     const db = await checkDatabase();
