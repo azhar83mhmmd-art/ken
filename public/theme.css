@@ -482,3 +482,44 @@ h1,h2,h3,p,li,td,th{overflow-wrap:anywhere;}
 @media (max-height:480px) and (orientation:landscape){
     .k-navbar{position:static;}
 }
+
+/* ---- v4.1: perbaikan responsif HP (semua halaman) ---- */
+.k-container{width:100%;}
+.k-page-head>*{min-width:0;}
+.k-hero-badge,.k-badge{max-width:100%;flex-wrap:wrap;}
+.k-input,.k-textarea,.k-select,input,textarea,select{max-width:100%;}
+input,textarea,select{font-size:max(16px,1em);} /* cegah zoom otomatis iOS/Android saat fokus */
+@media (max-width:640px){
+    .k-page{padding:26px 0 12px;}
+    .k-page-head{flex-direction:column;align-items:stretch;gap:12px;}
+    .k-h1{font-size:clamp(28px,10vw,40px) !important;line-height:1.05;}
+    .k-hero{padding:34px 16px 24px;}
+    .k-hero-cta{display:flex;flex-direction:column;gap:12px;}
+    .k-hero-cta .k-btn{width:100%;justify-content:center;}
+    .k-hero-desc{font-size:14.5px;}
+    .k-logs-toolbar{flex-direction:column;align-items:stretch;}
+    .k-logs-search{max-width:100% !important;width:100%;}
+    .k-overall-banner{flex-wrap:wrap;}
+    .k-bento,.k-bento-cats,.k-components-grid{gap:14px;}
+    .k-section,section.k-container{scroll-margin-top:72px;}
+    .k-footer-links{flex-wrap:wrap;gap:10px 16px;}
+}
+@media (max-width:360px){
+    .k-container,.k-navbar-inner{padding-left:12px;padding-right:12px;}
+    .k-h1{font-size:26px !important;}
+}
+
+/* ---- ikon perisai admin di navbar ---- */
+.k-nav-actions{display:flex;align-items:center;gap:10px;flex:none;}
+.k-nav-shield{
+    position:relative;display:flex;width:42px;height:42px;align-items:center;justify-content:center;flex:none;
+    background:var(--accent);color:#fff;border:var(--bw) solid var(--ink);border-radius:var(--radius-sm);
+    box-shadow:3px 3px 0 var(--ink);
+    transition:transform .2s var(--spring),box-shadow .2s var(--ease),background .15s;
+}
+.k-nav-shield svg{width:20px;height:20px;filter:drop-shadow(1px 1px 0 var(--ink));transition:transform .35s var(--spring);}
+.k-nav-shield:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);background:var(--accent-3);}
+.k-nav-shield:hover svg{transform:scale(1.15) rotate(-8deg);}
+.k-nav-shield:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink);}
+.k-nav-shield.active{background:var(--ink);color:var(--accent-2);box-shadow:3px 3px 0 var(--accent);}
+@media (max-width:640px){.k-nav-actions{gap:8px;}}
