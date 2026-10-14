@@ -1388,8 +1388,17 @@ window.testReq = async (btn, url, method, id) => {
         );
 
         const type = req.headers.get("content-type");
+        const vercelErr = req.headers.get("x-vercel-error");
 
-        if (type?.includes("json")) {
+        if (vercelErr) {
+            const raw = (await req.text()).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 240);
+            out.innerHTML =
+                `<div style="color:#FCA5A5;font-weight:700;margin-bottom:8px">DIAGNOSIS: ${escHtml(vercelErr)}</div>` +
+                `<div style="color:#FDE68A;margin-bottom:8px">Error ini dibalas oleh platform Vercel, BUKAN oleh Express. ` +
+                `Artinya request ke <b>${escHtml(url)}</b> tidak diteruskan ke fungsi server. ` +
+                `Pastikan vercel.json punya rewrites untuk <b>/api/:path*</b> lalu redeploy.</div>` +
+                `<div style="color:#94A3B8">${escHtml(raw)}</div>`;
+        } else if (type?.includes("json")) {
             const json = await req.json();
             out.innerHTML = syntaxHighlight(json);
         } else if (type?.startsWith("image")) {
