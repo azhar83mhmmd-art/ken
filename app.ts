@@ -43,6 +43,8 @@ import { statusHealthHandler } from './src/routes/health';
 import { submitFeedbackHandler } from './src/routes/feedback';
 import { premiumRouter } from './src/premium/premiumProxy';
 import { dashboardRouter } from './src/premium/dashboardRouter';
+import { adminRouter } from './src/admin/adminRouter';
+import { maintenanceGuard } from './src/admin/maintenance';
 
 const app = express();
 /*
@@ -196,6 +198,14 @@ app.use(express.static(publicDir));
 app.use('/src', express.static(srcDir));
 
 /*
+ * Admin dashboard (/admin) — login password, pengunjung, request/menit,
+ * mode maintenance, realtime Supabase. Dipasang SEBELUM tracking & rate
+ * limiter supaya polling dashboard tidak ikut dihitung sebagai traffic.
+ */
+app.use('/api/admin', adminRouter);
+app.use(maintenanceGuard);
+
+/*
  * Request tracking untuk Server Monitor (/monitor). Dipasang SEBELUM
  * rate limiter supaya request yang di-block 429 pun tetap tercatat.
  * monitorTracking sendiri fire-and-forget dan tidak pernah melempar
@@ -246,6 +256,11 @@ app.use('/premium-assets', express.static(path.join(publicDir, 'premium')));
 
 app.get('/premium', (req: Request, res: Response) => {
     return res.sendFile(path.join(publicDir, 'premium', 'premium.html'));
+});
+
+app.get('/admin', (req: Request, res: Response) => {
+    res.setHeader('Cache-Control', 'no-store');
+    return res.sendFile(path.join(publicDir, 'admin', 'admin.html'));
 });
 
 app.get('/monitor', (req: Request, res: Response) => {
