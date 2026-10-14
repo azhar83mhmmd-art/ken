@@ -39,3 +39,12 @@ body{background-color:var(--paper);background-image:radial-gradient(rgba(10,10,1
 nav.sticky{background:#FACC15;border-bottom:3px solid #0A0A0A;animation:s-drop .6s var(--ease) both}
 @keyframes s-drop{from{transform:translateY(-100%)}to{transform:none}}
 #ram-percent{color:#0A0A0A !important}
+
+/* v4.1 responsif */
+html,body{overflow-x:hidden}
+img,svg,canvas{max-width:100%}
+@media (max-width:640px){
+    .clay-stat-card{padding:16px;box-shadow:4px 4px 0 var(--ink)}
+    .clay-stat-icon{width:44px;height:44px;font-size:17px}
+    .mem-track{height:24px}
+}
