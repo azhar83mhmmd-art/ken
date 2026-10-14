@@ -292,6 +292,8 @@ app.get('/terms', (req: Request, res: Response) => {
 });
 
 app.get('/stats/data', (req: Request, res: Response) => {
+    // Jangan di-cache browser/CDN — data realtime (uptime, memori, CPU).
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
     try {
         const totalMemory = os.totalmem();
         const freeMemory = os.freemem();
@@ -304,6 +306,9 @@ app.get('/stats/data', (req: Request, res: Response) => {
                 arch: os.arch(),
                 hostname: os.hostname(),
                 uptime: formatUptime(os.uptime()),
+                // detik mentah + waktu server: dipakai frontend untuk uptime yang berjalan tiap detik
+                uptimeSeconds: Math.floor(os.uptime()),
+                serverTime: Date.now(),
                 node_version: process.version,
                 memory: {
                     total: formatBytes(totalMemory),
