@@ -24,6 +24,8 @@
         { href: '/about', label: 'Tentang Kami', key: 'about', icon: 'M12 16v-4M12 8h.01M22 12a10 10 0 11-20 0 10 10 0 0120 0z' }
     ];
 
+    var SHIELD_ICON = 'M12 3l8 3v5.5c0 4.6-3.2 8.2-8 9.5-4.8-1.3-8-4.9-8-9.5V6l8-3zM9 12l2.2 2.2L15.5 10';
+
     var FOOTER_LINKS = [
         { href: '/docs', label: 'Dokumentasi' },
         { href: '/status', label: 'Status' },
@@ -47,7 +49,7 @@
         var drawerLinks = NAV_ITEMS.map(function (item) {
             var active = item.key === activeKey ? ' active' : '';
             return '<a href="' + item.href + '" class="k-nav-drawer-link' + active + '">' + icon(item.icon, 18) + '<span>' + item.label + '</span></a>';
-        }).join('');
+        }).join('') + '<a href="/admin" class="k-nav-drawer-link' + (activeKey === 'admin' ? ' active' : '') + '">' + icon(SHIELD_ICON, 18) + '<span>Admin</span></a>';
 
         var nav = document.createElement('header');
         nav.className = 'k-navbar';
@@ -55,9 +57,12 @@
             '<div class="k-navbar-inner">' +
                 '<a href="/" class="k-brand"><span class="k-brand-dot"></span><span id="k-brand-name">KAIROO</span></a>' +
                 '<nav class="k-nav-links">' + links + '</nav>' +
-                '<button type="button" class="k-nav-hamburger" id="k-nav-toggle" aria-label="Buka menu" aria-expanded="false" aria-controls="k-nav-drawer">' +
-                    icon('M4 7h16M4 12h16M4 17h16', 18) +
-                '</button>' +
+                '<div class="k-nav-actions">' +
+                    '<a href="/admin" class="k-nav-shield' + (activeKey === 'admin' ? ' active' : '') + '" aria-label="Admin" title="Admin">' + icon(SHIELD_ICON, 20) + '</a>' +
+                    '<button type="button" class="k-nav-hamburger" id="k-nav-toggle" aria-label="Buka menu" aria-expanded="false" aria-controls="k-nav-drawer">' +
+                        icon('M4 7h16M4 12h16M4 17h16', 18) +
+                    '</button>' +
+                '</div>' +
             '</div>';
 
         var overlay = document.createElement('div');
