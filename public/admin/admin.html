@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FACC15">
+<title>Admin | Kairoo API</title>
+<link id="favicon" rel="icon" href="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme.css?v=20261014a">
+<link rel="stylesheet" href="/admin/admin.css?v=20261014a">
+</head>
+<body data-page="admin">
+
+<main class="k-container k-page adm">
+
+    <!-- ===================== LOGIN ===================== -->
+    <section id="adm-login" class="adm-login" aria-labelledby="adm-login-title">
+        <form id="adm-login-form" class="k-card adm-login-card" autocomplete="off" novalidate>
+            <div class="adm-shield-hero" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v5.5c0 4.6-3.2 8.2-8 9.5-4.8-1.3-8-4.9-8-9.5V6l8-3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+            </div>
+            <span class="adm-tag">Area Admin</span>
+            <h1 id="adm-login-title" class="adm-title">Masuk Admin</h1>
+            <p class="adm-sub">Pantau pengunjung, request per menit, dan kendalikan server secara realtime.</p>
+
+            <label class="adm-label" for="adm-pass">Password</label>
+            <div class="adm-pass-wrap">
+                <input id="adm-pass" class="k-input adm-input" type="password" placeholder="Masukkan password admin" autocomplete="current-password" maxlength="200" required>
+                <button type="button" id="adm-eye" class="adm-eye" aria-label="Tampilkan password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+
+            <div id="adm-login-msg" class="adm-msg" role="alert" hidden></div>
+
+            <button type="submit" id="adm-login-btn" class="k-btn k-btn-primary adm-full">
+                <span id="adm-login-btn-text">Masuk</span>
+            </button>
+
+            <p id="adm-setup-hint" class="adm-hint" hidden></p>
+            <a href="/" class="adm-back">&larr; Kembali ke beranda</a>
+        </form>
+    </section>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section id="adm-dash" hidden>
+
+        <div class="adm-head">
+            <div class="adm-head-text">
+                <span class="adm-tag">Admin</span>
+                <h1 class="adm-title adm-title-sm">Dashboard Realtime</h1>
+                <p class="adm-sub" id="adm-updated">Memuat data...</p>
+            </div>
+            <div class="adm-head-actions">
+                <span id="adm-rt-pill" class="adm-pill adm-pill-wait"><i></i><b id="adm-rt-text">Menghubungkan</b></span>
+                <button type="button" id="adm-refresh" class="k-btn k-btn-light adm-btn-sm" aria-label="Muat ulang data">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 12a9 9 0 11-3-6.7L21 8M21 3v5h-5"/></svg>
+                    <span class="adm-hide-sm">Refresh</span>
+                </button>
+                <button type="button" id="adm-logout" class="k-btn k-btn-ghost adm-btn-sm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                    <span class="adm-hide-sm">Keluar</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="adm-banner" class="adm-banner" hidden></div>
+
+        <!-- KPI -->
+        <div class="adm-kpis">
+            <article class="k-card adm-kpi" style="--c:#BBF7D0">
+                <div class="adm-kpi-label"><span class="adm-live-dot"></span>Online sekarang</div>
+                <div class="adm-kpi-val" id="kpi-online">-</div>
+                <div class="adm-kpi-sub">aktif 75 detik terakhir</div>
+            </article>
+            <article class="k-card adm-kpi" style="--c:#FDE047">
+                <div class="adm-kpi-label">Request / menit</div>
+                <div class="adm-kpi-val" id="kpi-rpm">-</div>
+                <div class="adm-kpi-sub" id="kpi-rpm-sub">rata-rata -</div>
+            </article>
+            <article class="k-card adm-kpi" style="--c:#BFDBFE">
+                <div class="adm-kpi-label">Pengunjung hari ini</div>
+                <div class="adm-kpi-val" id="kpi-visitors">-</div>
+                <div class="adm-kpi-sub" id="kpi-visitors-sub">7 hari: -</div>
+            </article>
+            <article class="k-card adm-kpi" style="--c:#FBCFE8">
+                <div class="adm-kpi-label">Page views hari ini</div>
+                <div class="adm-kpi-val" id="kpi-views">-</div>
+                <div class="adm-kpi-sub">semua halaman web</div>
+            </article>
+            <article class="k-card adm-kpi" style="--c:#FED7AA">
+                <div class="adm-kpi-label">Request hari ini</div>
+                <div class="adm-kpi-val" id="kpi-req">-</div>
+                <div class="adm-kpi-sub" id="kpi-req-sub">puncak -/menit (1 jam)</div>
+            </article>
+            <article class="k-card adm-kpi" id="kpi-err-card" style="--c:#E9D5FF">
+                <div class="adm-kpi-label">Error rate (15 mnt)</div>
+                <div class="adm-kpi-val" id="kpi-err">-</div>
+                <div class="adm-kpi-sub" id="kpi-lat-sub">latency rata-rata -</div>
+            </article>
+        </div>
+
+        <!-- GRAFIK -->
+        <div class="adm-grid-2">
+            <article class="k-card adm-panel">
+                <header class="adm-panel-head">
+                    <h2>Request per menit</h2><span class="adm-chip">60 menit</span>
+                </header>
+                <div class="adm-chart" id="chart-rpm" role="img" aria-label="Grafik request per menit"></div>
+                <div class="adm-axis"><span>-60m</span><span>-30m</span><span>sekarang</span></div>
+            </article>
+
+            <article class="k-card adm-panel">
+                <header class="adm-panel-head">
+                    <h2>Pengunjung per jam</h2><span class="adm-chip">24 jam</span>
+                </header>
+                <div class="adm-chart" id="chart-hourly" role="img" aria-label="Grafik pengunjung per jam"></div>
+                <div class="adm-axis"><span>-24j</span><span>-12j</span><span>sekarang</span></div>
+                <div class="adm-legend"><span><i style="background:var(--accent-4)"></i>Page views</span><span><i style="background:var(--accent-3)"></i>Pengunjung unik</span></div>
+            </article>
+        </div>
+
+        <!-- LIVE FEED + KONTROL -->
+        <div class="adm-grid-feed">
+            <article class="k-card adm-panel">
+                <header class="adm-panel-head">
+                    <h2>Aktivitas langsung</h2>
+                    <div class="adm-filters" id="feed-filters" role="group" aria-label="Filter aktivitas">
+                        <button type="button" class="adm-f active" data-f="all">Semua</button>
+                        <button type="button" class="adm-f" data-f="req">Request</button>
+                        <button type="button" class="adm-f" data-f="visit">Pengunjung</button>
+                        <button type="button" class="adm-f" data-f="err">Error</button>
+                    </div>
+                </header>
+                <ul class="adm-feed" id="feed"><li class="adm-empty">Menunggu aktivitas...</li></ul>
+            </article>
+
+            <article class="k-card adm-panel adm-controls">
+                <header class="adm-panel-head"><h2>Kontrol Admin</h2></header>
+
+                <div class="adm-ctrl">
+                    <div class="adm-ctrl-row">
+                        <div>
+                            <b>Mode Maintenance</b>
+                            <small id="mt-state">Nonaktif. API berjalan normal.</small>
+                        </div>
+                        <button type="button" id="mt-switch" class="adm-switch" role="switch" aria-checked="false" aria-label="Mode maintenance"><i></i></button>
+                    </div>
+                    <input id="mt-msg" class="k-input adm-input" type="text" maxlength="200" placeholder="Pesan untuk pengguna (opsional)">
+                    <button type="button" id="mt-save" class="k-btn k-btn-primary adm-btn-sm adm-full">Simpan maintenance</button>
+                </div>
+
+                <div class="adm-ctrl">
+                    <div class="adm-ctrl-row">
+                        <div><b>Interval pembaruan</b><small>Cadangan bila realtime terputus</small></div>
+                        <select id="adm-interval" class="k-input adm-select" aria-label="Interval pembaruan">
+                            <option value="3000">3 detik</option>
+                            <option value="5000" selected>5 detik</option>
+                            <option value="10000">10 detik</option>
+                            <option value="30000">30 detik</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="adm-ctrl">
+                    <div class="adm-ctrl-row">
+                        <div><b>Bersihkan log lama</b><small>Hapus request &amp; kunjungan lebih tua dari</small></div>
+                        <select id="purge-days" class="k-input adm-select" aria-label="Hapus data lebih tua dari">
+                            <option value="3">3 hari</option>
+                            <option value="7">7 hari</option>
+                            <option value="14" selected>14 hari</option>
+                            <option value="30">30 hari</option>
+                        </select>
+                    </div>
+                    <button type="button" id="purge-btn" class="k-btn k-btn-ghost adm-btn-sm adm-full adm-danger">Hapus log lama</button>
+                </div>
+
+                <div class="adm-server" id="server-info"></div>
+            </article>
+        </div>
+
+        <!-- DAFTAR -->
+        <div class="adm-grid-3">
+            <article class="k-card adm-panel">
+                <header class="adm-panel-head"><h2>Endpoint teratas</h2><span class="adm-chip">24 jam</span></header>
+                <ul class="adm-rank" id="top-endpoints"></ul>
+            </article>
+            <article class="k-card adm-panel">
+                <header class="adm-panel-head"><h2>Halaman teratas</h2><span class="adm-chip">24 jam</span></header>
+                <ul class="adm-rank" id="top-pages"></ul>
+            </article>
+            <article class="k-card adm-panel">
+                <header class="adm-panel-head"><h2>Perangkat &amp; negara</h2><span class="adm-chip">24 jam</span></header>
+                <div class="adm-split" id="devices"></div>
+                <ul class="adm-rank adm-rank-compact" id="countries"></ul>
+            </article>
+        </div>
+    </section>
+</main>
+
+<div id="adm-toast" class="adm-toast" role="status" aria-live="polite"></div>
+
+<script src="/kairoo-nav.js?v=20261014a"></script>
+<script src="/admin/admin.js?v=20261014a"></script>
+<script src="/kairoo-ui.js?v=20261014a"></script>
+</body>
+</html>
