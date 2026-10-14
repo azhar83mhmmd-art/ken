@@ -16,11 +16,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { supabase, hasSupabase } from './client';
 import { hashIp } from './hashIp';
+import { keepAlive } from '../admin/keepAlive';
 
 const IGNORED_PREFIXES = [
     '/stats',
     '/monitor',
     '/api/monitor',
+    '/api/admin',
+    '/admin',
     '/api/status',
     '/api/feedback',
     '/status',
@@ -75,7 +78,7 @@ export const monitorTracking = (req: Request, res: Response, next: NextFunction)
         const responseTimeMs = Number(process.hrtime.bigint() - start) / 1_000_000;
         const ip = getIp(req);
 
-        supabase
+        const task = Promise.resolve(supabase
             .rpc('record_api_request', {
                 p_endpoint: req.path,
                 p_method: req.method,
@@ -93,7 +96,10 @@ export const monitorTracking = (req: Request, res: Response, next: NextFunction)
                 (error: any) => {
                     console.error('[Monitor] Gagal mencatat statistik request:', error?.message || error);
                 }
-            );
+            ));
+
+        // Vercel bisa membekukan fungsi begitu response selesai; waitUntil menjaga insert tetap selesai.
+        keepAlive(task);
     });
 
     next();
