@@ -90,14 +90,16 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
 
 /* ---------- popup whatsapp ---------- */
 .kb-wa-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;
- background:rgba(10,10,10,.66);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s ease;
+ background:rgba(10,10,10,.74);opacity:0;pointer-events:none;transition:opacity .25s ease;
  font-family:var(--kb-font);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .kb-wa-overlay.show{opacity:1;pointer-events:auto}
+.kb-wa-overlay{height:100vh;height:100dvh;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
 .kb-wa-modal{position:relative;width:100%;max-width:440px;margin:auto;background:var(--kb-paper);border:3px solid var(--kb-ink);border-radius:16px;
- box-shadow:10px 10px 0 var(--kb-ink);overflow:hidden;transform:translateY(60px) rotate(-4deg) scale(.82);opacity:0;
- transition:transform .6s var(--kb-spring),opacity .3s ease}
-.kb-wa-overlay.show .kb-wa-modal{transform:none;opacity:1}
-.kb-wa-overlay.hide .kb-wa-modal{transform:translateY(30px) rotate(3deg) scale(.9);opacity:0;transition:transform .25s ease,opacity .2s ease}
+ box-shadow:10px 10px 0 var(--kb-ink);overflow:hidden;flex:none}
+.kb-wa-overlay.show .kb-wa-modal{animation:kb-modal-in .55s var(--kb-spring) both}
+.kb-wa-overlay.hide .kb-wa-modal{animation:kb-modal-out .25s ease both}
+@keyframes kb-modal-in{from{opacity:0;transform:translateY(50px) rotate(-3deg) scale(.88)}to{opacity:1;transform:none}}
+@keyframes kb-modal-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(24px) scale(.94)}}
 .kb-wa-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:var(--kb-yellow);border-bottom:3px solid var(--kb-ink)}
 .kb-wa-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--kb-ink)}
 .kb-wa-dot:nth-child(1){background:#FF6B6B}.kb-wa-dot:nth-child(2){background:#fff}.kb-wa-dot:nth-child(3){background:var(--kb-lime)}
@@ -114,13 +116,14 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
 @keyframes kb-marq{to{transform:translateX(-50%)}}
 
 .kb-wa-body{position:relative;padding:24px 22px 22px;text-align:center;background-image:radial-gradient(rgba(10,10,10,.14) 1.2px,transparent 1.2px);background-size:18px 18px}
-.kb-wa-body>*{position:relative;z-index:1;opacity:0;transform:translateY(16px);transition:opacity .5s var(--kb-ease),transform .5s var(--kb-ease)}
-.kb-wa-overlay.show .kb-wa-body>*{opacity:1;transform:none}
-.kb-wa-overlay.show .kb-wa-body>*:nth-child(4){transition-delay:.16s}
-.kb-wa-overlay.show .kb-wa-body>*:nth-child(5){transition-delay:.24s}
-.kb-wa-overlay.show .kb-wa-body>*:nth-child(6){transition-delay:.32s}
-.kb-wa-overlay.show .kb-wa-body>*:nth-child(7){transition-delay:.4s}
-.kb-wa-overlay.show .kb-wa-body>*:nth-child(8){transition-delay:.48s}
+.kb-wa-body>*{position:relative;z-index:1}
+.kb-wa-overlay.show .kb-wa-body>*:not(.kb-wa-shape){animation:kb-rise .5s var(--kb-ease) both}
+.kb-wa-overlay.show .kb-wa-body>*:nth-child(4){animation-delay:.14s}
+.kb-wa-overlay.show .kb-wa-body>*:nth-child(5){animation-delay:.2s}
+.kb-wa-overlay.show .kb-wa-body>*:nth-child(6){animation-delay:.26s}
+.kb-wa-overlay.show .kb-wa-body>*:nth-child(7){animation-delay:.32s}
+.kb-wa-overlay.show .kb-wa-body>*:nth-child(8){animation-delay:.38s}
+@keyframes kb-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 .kb-wa-badge{width:84px;height:84px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:var(--kb-lime);
  border:3px solid var(--kb-ink);border-radius:20px;box-shadow:5px 5px 0 var(--kb-ink);color:var(--kb-ink);animation:kb-wobble 3.2s ease-in-out infinite}
@@ -158,12 +161,13 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
 .kb-confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10001}
 
 /* ---------- pencarian cepat (command palette) ---------- */
-.kb-cmd{position:fixed;inset:0;z-index:9800;display:flex;align-items:flex-start;justify-content:center;padding:max(14px,8vh) 14px 14px;background:rgba(10,10,10,.6);
- backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .22s ease;font-family:var(--kb-font)}
+.kb-cmd{position:fixed;inset:0;z-index:9800;display:flex;align-items:flex-start;justify-content:center;padding:max(14px,8vh) 14px 14px;background:rgba(10,10,10,.7);
+ opacity:0;pointer-events:none;transition:opacity .22s ease;font-family:var(--kb-font)}
 .kb-cmd.show{opacity:1;pointer-events:auto}
 .kb-cmd-box{width:100%;max-width:620px;max-height:min(560px,84dvh);display:flex;flex-direction:column;background:var(--kb-paper);border:3px solid var(--kb-ink);border-radius:14px;
- box-shadow:9px 9px 0 var(--kb-ink);overflow:hidden;transform:translateY(-24px) scale(.96);transition:transform .35s var(--kb-spring)}
-.kb-cmd.show .kb-cmd-box{transform:none}
+ box-shadow:9px 9px 0 var(--kb-ink);overflow:hidden}
+.kb-cmd.show .kb-cmd-box{animation:kb-cmd-in .35s var(--kb-spring) both}
+@keyframes kb-cmd-in{from{opacity:0;transform:translateY(-22px) scale(.96)}to{opacity:1;transform:none}}
 .kb-cmd-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--kb-yellow);border-bottom:3px solid var(--kb-ink)}
 .kb-cmd-head svg{width:20px;height:20px;flex:none;color:var(--kb-ink)}
 .kb-cmd-input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-family:inherit;font-size:16px;font-weight:700;color:var(--kb-ink)}
@@ -186,7 +190,7 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
 @media (max-width:520px){.kb-cmd-foot .hint-desk{display:none}}
 
 @media (prefers-reduced-motion:reduce){
- .kb-wa-badge,.kb-wa-shape,.kb-wa-ticker div,.kb-wa-primary,.kb-wa-fab,.kb-wa-fab::after{animation:none !important}
+ .kb-wa-badge,.kb-wa-shape,.kb-wa-ticker div,.kb-wa-primary,.kb-wa-fab,.kb-wa-fab::after,.kb-wa-overlay .kb-wa-modal,.kb-wa-overlay .kb-wa-body>*,.kb-cmd-box{animation:none !important}
  .kb-in{animation:none}.kb-pre{opacity:1}
 }
 `;
@@ -246,7 +250,10 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
         })(t0);
     }
 
+    var isAdminPage = location.pathname.indexOf('/admin') === 0;
+
     function initPopup() {
+        if (isAdminPage) return;
         if (document.getElementById('kb-wa-overlay')) return;
 
         var overlay = document.createElement('div');
@@ -330,6 +337,11 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
             requestAnimationFrame(function () {
                 overlay.classList.add('show');
                 setTimeout(function () { try { followBtn.focus({ preventScroll: true }); } catch (e) {} }, 450);
+                // jaring pengaman: pastikan kotak popup terlihat walau animasi gagal (HP tertentu)
+                setTimeout(function () {
+                    var m = overlay.querySelector('.kb-wa-modal');
+                    if (m && !closed) { m.style.opacity = '1'; m.style.transform = 'none'; }
+                }, 900);
             });
         });
     }
@@ -344,7 +356,8 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
         { t: 'Status Server Realtime', u: '/status', d: 'Kesehatan server' },
         { t: 'Pusat Feedback & Laporan', u: '/feedback', d: 'Kirim saran atau laporan bug' },
         { t: 'Akun & Langganan', u: '/premium', d: 'API key & paket premium' },
-        { t: 'Tentang Kami', u: '/about', d: 'Tentang Kairoo' }
+        { t: 'Tentang Kami', u: '/about', d: 'Tentang Kairoo' },
+        { t: 'Admin', u: '/admin', d: 'Dashboard pengunjung, request/menit & kontrol server' }
     ];
     var epCache = null;
     var cmd = null, cmdInput = null, cmdList = null, cmdItems = [], cmdActive = 0;
@@ -516,7 +529,7 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
         wa.setAttribute('aria-label', 'Ikuti Saluran WhatsApp'); wa.innerHTML = ICON_WA + '<span>Saluran WA</span>';
         wa.addEventListener('click', initPopup);
 
-        dock.appendChild(top); dock.appendChild(se); dock.appendChild(wa);
+        dock.appendChild(top); dock.appendChild(se); if (!isAdminPage) dock.appendChild(wa);
         document.body.appendChild(dock);
         dock._top = top;
     }
@@ -712,6 +725,39 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
         });
     }
 
+
+    /* =====================================================
+     * 8. STATISTIK PENGUNJUNG (untuk dashboard /admin)
+     * Tanpa IP & tanpa cookie pelacak: hanya id acak di localStorage,
+     * path halaman, dan domain referrer. Menghormati Do Not Track.
+     * ===================================================== */
+    function initTrack() {
+        if (isAdminPage) return;
+        if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
+
+        var vid = null;
+        try { vid = localStorage.getItem('kb_vid'); } catch (e) {}
+        if (!vid) {
+            vid = 'v' + Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+            try { localStorage.setItem('kb_vid', vid); } catch (e) {}
+        }
+
+        function refHost() {
+            try { var h = new URL(document.referrer).host; return h === location.host ? '' : h; } catch (e) { return ''; }
+        }
+        function send(pv) {
+            var body = JSON.stringify({ vid: vid, path: location.pathname, ref: pv ? refHost() : '', pv: pv });
+            try {
+                if (navigator.sendBeacon && navigator.sendBeacon('/api/admin/track', new Blob([body], { type: 'application/json' }))) return;
+            } catch (e) {}
+            try { fetch('/api/admin/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }); } catch (e) {}
+        }
+
+        send(true);
+        setInterval(function () { if (!document.hidden) send(false); }, 30000);
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) send(false); });
+    }
+
     /* ===================================================== */
     function init() {
         if (!document.body) return;
@@ -727,6 +773,7 @@ html.kb-lock .kb-dock{opacity:0;pointer-events:none}
         safe(initCountUp);
         safe(initReveal);
         safe(initLeave);
+        safe(initTrack);
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
