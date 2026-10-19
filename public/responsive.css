@@ -1,0 +1,105 @@
+/* =====================================================================
+   AM Premify v4.5 - Perbaikan responsif + popup donasi
+   Dimuat paling akhir supaya menimpa aturan lama.
+   ===================================================================== */
+
+/* ---------- Dasar: cegah geser samping & ukuran layar dinamis ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overflow-x: clip; }
+body { min-height: 100vh; min-height: 100dvh; overflow-x: clip; overflow-wrap: break-word; }
+img, svg, video, canvas, iframe { max-width: 100%; }
+.container, .card, .grid > *, .ms-grid > *, .hero > * { min-width: 0; }
+.container { width: 100%; }
+@media (max-width: 719px) { .container { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); } }
+.topbar-in { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+table { max-width: 100%; }
+pre, code, .term-body { overflow-x: auto; max-width: 100%; }
+
+/* ---------- Topbar tablet & laptop kecil (721px - 1279px) ---------- */
+@media (min-width: 721px) {
+  .topbar-in { flex-wrap: nowrap; gap: 10px; }
+  .brand { flex-shrink: 0; }
+  .brand h1 { font-size: 1.15rem; }
+  .tabs { flex: 1 1 auto; min-width: 0; justify-content: center; gap: 6px; }
+  .tab { padding: 8px 11px; flex-shrink: 0; }
+  .tab span { display: none; }
+  .tab.active span { display: inline; }
+  .top-actions { flex-shrink: 0; gap: 8px; }
+  .srch-btn { width: 46px; padding: 0; justify-content: center; }
+  .srch-btn span, .srch-btn kbd { display: none; }
+}
+@media (min-width: 721px) and (max-width: 899px) {
+  .profile-btn .pname { display: none; }
+  .profile-btn { padding-right: 6px; }
+  .brand .tag { display: none; }
+}
+@media (min-width: 1100px) and (max-width: 1279px) {
+  .tab span { display: inline; }
+  .tab { padding: 8px 12px; }
+}
+@media (min-width: 1280px) {
+  .topbar-in, .container { max-width: 1180px; }
+  .tab span { display: inline; }
+}
+@media (min-width: 1600px) {
+  html { font-size: 17px; }
+  .topbar-in, .container { max-width: 1280px; }
+}
+
+/* ---------- Tablet (721px - 899px) ---------- */
+@media (min-width: 721px) and (max-width: 899px) {
+  .hero { padding: 28px 24px; }
+  .grid, .guide { gap: 14px; }
+  .guide { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- HP kecil ---------- */
+@media (max-width: 420px) {
+  .container { padding-top: 18px; }
+  .card { padding: 16px; }
+  .hero h2 { font-size: clamp(1.9rem, 10vw, 2.5rem); }
+  .hero-actions .btn { flex: 1 1 100%; max-width: none; }
+  .toast { max-width: calc(100vw - 24px); }
+}
+@media (max-width: 340px) {
+  html { font-size: 14px; }
+  .topbar-in { gap: 8px; padding: 10px 10px; }
+  .brand { gap: 8px; }
+  .logo, .menu-btn { width: 40px; height: 40px; }
+  .brand h1 { font-size: 1.05rem; }
+  .ms-grid { gap: 8px; }
+}
+
+/* ---------- HP landscape / layar pendek ---------- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .topbar { position: static; }
+  .dock { position: fixed; padding: 3px; }
+  .dock-i { min-height: 44px; padding: 4px 2px; }
+  .dock-t { display: none; }
+  .dock-main .dock-ic { margin-top: -8px; }
+}
+
+/* ---------- Semua popup: jangan melebihi tinggi layar ---------- */
+.ch-card, .rt-card, .uic-card { max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; }
+.ch-pop { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+@media (max-width: 380px) {
+  .ch-body { padding: 20px 14px 16px; }
+  .ch-k { font-size: .56rem; letter-spacing: .1em; text-align: center; }
+  .ch-card { box-shadow: 6px 6px 0 #25d366; }
+  .dn-pop .ch-card { box-shadow: 6px 6px 0 var(--pink); }
+}
+
+/* ---------- Popup donasi (gaya sama dengan popup saluran WhatsApp) ---------- */
+.dn-pop .ch-card { box-shadow: 10px 10px 0 var(--pink); }
+.dn-pop .ch-body { background: radial-gradient(circle at 50% 0, rgba(255, 143, 171, .32), transparent 62%), var(--paper); }
+.dn-pop .ch-ico { background: var(--pink); color: var(--ink); }
+.dn-pop .ch-ico > svg { fill: var(--ink); }
+.dn-pop .ch-ring { border-color: var(--pink); }
+.dn-pop .ch-ico { animation: dn-beat 1.9s ease-in-out infinite; }
+@keyframes dn-beat { 0%, 100% { transform: rotate(-6deg) scale(1); } 14% { transform: rotate(-6deg) scale(1.1); } 28% { transform: rotate(-6deg) scale(1); } 42% { transform: rotate(-6deg) scale(1.07); } 70% { transform: rotate(-6deg) scale(1); } }
+.dn-pop .ch-k { color: var(--pink); }
+.dn-pop .ch-list .ic { background: var(--pink); }
+.dn-pop .ch-go { background: var(--pink); color: var(--ink); }
+.dn-pop .ch-go > svg:first-child { fill: var(--ink); }
+.dn-pop .ch-title mark { background: var(--yellow); }
+@media (max-width: 360px) { .dn-pop .ch-title { font-size: 1.45rem; } }
+@media (prefers-reduced-motion: reduce) { .dn-pop .ch-ico { animation: none !important; } }
