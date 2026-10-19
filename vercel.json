@@ -1,11 +1,41 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "outputDirectory": "dist",
+  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/index"
+      "source": "/bypass",
+      "destination": "/bypass.html"
+    },
+    {
+      "source": "/premium",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/panduan",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rating",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ulasan",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/bukti",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/biodata",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/room",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
     }
   ]
 }
