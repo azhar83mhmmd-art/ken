@@ -1,0 +1,50 @@
+/* AM Premify v4.3 - Dialog konfirmasi (pengganti confirm() bawaan browser) */
+.uic { position: fixed; inset: 0; z-index: 118; display: grid; place-items: center; padding: 18px; padding-top: max(18px, env(safe-area-inset-top)); padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+.uic-bg { position: absolute; inset: 0; background: rgba(13, 13, 13, .7); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: uic-fade .2s ease both; }
+.uic-card { --uic: var(--red, #ff5a5f); position: relative; width: 100%; max-width: 420px; max-height: 100%; overflow-y: auto; overscroll-behavior: contain; background: var(--paper, #fff); color: var(--ink, #0d0d0d); border: var(--bd, 3px solid #0d0d0d); border-radius: 18px; box-shadow: 9px 9px 0 var(--uic); font-family: 'Space Grotesk', system-ui, sans-serif; animation: uic-pop .38s var(--ease-pop, cubic-bezier(.2, .9, .3, 1.25)) both; }
+.uic-warn { --uic: var(--orange, #ff9f5a); }
+.uic-info { --uic: var(--blue, #7cc6fe); }
+.uic-stripe { height: 12px; border-bottom: var(--bd, 3px solid #0d0d0d); background: repeating-linear-gradient(-45deg, var(--ink, #0d0d0d) 0 11px, var(--uic) 11px 22px); background-size: 31px 31px; animation: uic-stripes 1.4s linear infinite; }
+.uic-body { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 20px 20px 6px; }
+.uic-head { display: flex; align-items: center; gap: 14px; width: 100%; }
+.uic-ic { flex-shrink: 0; width: 52px; height: 52px; display: grid; place-items: center; background: var(--uic); color: var(--ink, #0d0d0d); border: var(--bd, 3px solid #0d0d0d); border-radius: 14px; box-shadow: 3px 3px 0 var(--ink, #0d0d0d); transform: rotate(-5deg); animation: uic-ic .5s var(--ease-pop, cubic-bezier(.2, .9, .3, 1.25)) .1s both; }
+.uic-ic .ic { width: 26px; height: 26px; }
+.uic-title { font-family: var(--display, 'Archivo Black', system-ui, sans-serif); font-weight: 400; font-size: 1.3rem; line-height: 1.15; letter-spacing: -.3px; }
+.uic-msg { font-size: .93rem; font-weight: 500; line-height: 1.5; color: #3b3a35; }
+.uic-prev { width: 100%; padding: 10px 12px; background: var(--bg, #fff6e5); border: 2px dashed var(--ink, #0d0d0d); border-radius: 12px; font-size: .84rem; display: flex; flex-direction: column; gap: 3px; }
+.uic-prev b { font-family: var(--mono, ui-monospace, monospace); font-size: .72rem; letter-spacing: .04em; }
+.uic-prev span { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; font-weight: 500; }
+.uic-list { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.uic-list-k { font-family: var(--mono, ui-monospace, monospace); font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #6a6657; }
+.uic-list ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.uic-list li { display: flex; align-items: flex-start; gap: 8px; font-size: .86rem; font-weight: 600; line-height: 1.35; }
+.uic-list li .ic { width: 15px; height: 15px; margin-top: 2px; color: var(--uic); stroke-width: 3; filter: brightness(.85); }
+.uic-field { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.uic-field > span { font-family: var(--mono, ui-monospace, monospace); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.uic-field input { width: 100%; padding: 11px 13px; background: var(--paper, #fff); color: var(--ink, #0d0d0d); border: var(--bd, 3px solid #0d0d0d); border-radius: 12px; font: 600 .9rem/1.2 var(--mono, ui-monospace, monospace); outline: 0; transition: box-shadow .15s, transform .15s; }
+.uic-field input:focus-visible { box-shadow: 3px 3px 0 var(--uic); transform: translate(-1px, -1px); }
+.uic-note { display: flex; align-items: center; gap: 7px; width: 100%; padding: 8px 10px; background: rgba(13, 13, 13, .06); border-radius: 10px; font-size: .78rem; font-weight: 700; }
+.uic-note .ic { width: 15px; height: 15px; }
+.uic-err { width: 100%; min-height: 0; font-size: .82rem; font-weight: 700; color: #b3201f; }
+.uic-err:empty { display: none; }
+.uic-actions { display: flex; gap: 12px; padding: 14px 20px 20px; }
+.uic-btn { flex: 1 1 0; min-width: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 14px; min-height: 48px; font: 700 .92rem/1 'Space Grotesk', system-ui, sans-serif; color: var(--ink, #0d0d0d); background: var(--paper, #fff); border: var(--bd, 3px solid #0d0d0d); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink, #0d0d0d); cursor: pointer; transition: transform .12s, box-shadow .12s, background .15s; }
+.uic-btn:hover:not(:disabled) { transform: translate(-1px, -2px); box-shadow: 5px 6px 0 var(--ink, #0d0d0d); }
+.uic-btn:active:not(:disabled) { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink, #0d0d0d); }
+.uic-btn:focus-visible { outline: 3px solid var(--ink, #0d0d0d); outline-offset: 3px; }
+.uic-btn:disabled { cursor: not-allowed; opacity: .75; }
+.uic-ok { background: var(--uic); }
+.uic-danger .uic-ok { color: #fff; background: #e03a3f; }
+.uic-btn .ic { width: 18px; height: 18px; }
+.uic-spin { width: 16px; height: 16px; border: 3px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: uic-spin .7s linear infinite; }
+.uic.out .uic-card { animation: uic-out .16s ease both; }
+.uic.out .uic-bg { animation: uic-fadeout .16s ease both; }
+@media (max-width: 380px) { .uic-actions { flex-direction: column-reverse; } .uic-title { font-size: 1.15rem; } }
+@keyframes uic-fade { from { opacity: 0; } }
+@keyframes uic-fadeout { to { opacity: 0; } }
+@keyframes uic-pop { from { opacity: 0; transform: translateY(26px) scale(.9) rotate(-1.5deg); } }
+@keyframes uic-out { to { opacity: 0; transform: translateY(14px) scale(.96); } }
+@keyframes uic-ic { from { transform: scale(0) rotate(-60deg); } }
+@keyframes uic-stripes { to { background-position: 31px 0; } }
+@keyframes uic-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .uic-card, .uic-bg, .uic-ic, .uic-stripe, .uic.out .uic-card, .uic.out .uic-bg { animation: none !important; } .uic-spin { animation-duration: 1.6s; } }
