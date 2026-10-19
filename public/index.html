@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd23f">
+  <title>AM Premify - Premium Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/reviews.css">
+  <link rel="stylesheet" href="/ui.css">
+  <link rel="stylesheet" href="/chat.css">
+  <link rel="stylesheet" href="/community.css">
+  <link rel="stylesheet" href="/responsive.css">
+  <script>
+    (function(){try{
+      var a=JSON.parse(localStorage.getItem('am_accent')||'null'); if(a) document.documentElement.setAttribute('data-accent',a);
+      if(!JSON.parse(localStorage.getItem('am_user')||'null')) document.documentElement.classList.add('needs-name');
+    }catch(e){document.documentElement.classList.add('needs-name');}})();
+  </script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+
+<!-- Ikon SVG -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-wa-fill" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.38A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.2 15.03l-.3-.18-3.1.82.83-3.03-.2-.31A8.1 8.1 0 0 1 12.04 3.8zm-3.2 3.6c-.2 0-.52.07-.8.38-.27.3-1.04 1.02-1.04 2.5s1.07 2.9 1.22 3.1c.15.2 2.08 3.3 5.13 4.5 2.54 1 3.05.8 3.6.75.56-.05 1.8-.74 2.05-1.45.25-.7.25-1.32.18-1.45-.08-.12-.28-.2-.58-.35-.3-.15-1.8-.9-2.07-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.95 1.2-.18.2-.35.22-.65.07-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.8-1.67-2.1-.18-.3-.02-.47.13-.62.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.65-.93-2.25-.24-.58-.5-.5-.68-.5z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="M2 18h20M3 7l4.5 5L12 5l4.5 7L21 7l-2 11H5z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M22 6l-10 7L2 6"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-fail" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1.3-1.3-1.8-1-.8.7c-.8-.4-1.5-1.1-1.9-1.9l.7-.8-1-1.8z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="M23 6l-9.5 9.5-5-5L1 18M17 6h6v6"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+    <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M6 11v2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L8 14.2 3 9.3l6.9-1z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></symbol>
+    <symbol id="i-gamepad" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 10.500v4M5 12.500h4M15.500 11.500v.01M18 13.500v.01"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2s5 4.5 5 9.500a5 5 0 0 1-10 0c0-1.800.8-3 1.800-4C9 9 10 10 10 10s-.5-4 2-8z"/><path d="M12 22a3 3 0 0 1-3-3c0-1.700 1.500-2.500 3-4 1.500 1.500 3 2.300 3 4a3 3 0 0 1-3 3z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.100 0 1.800-.8 1.800-1.700 0-.5-.2-.9-.5-1.200-.3-.3-.5-.7-.5-1.200 0-.9.800-1.700 1.700-1.700H17a4 4 0 0 0 4-4C21 6.700 17 3 12 3z"/><path d="M7.500 11h.01M10 7.500h.01M15 7.500h.01"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    <symbol id="i-paste" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.900 5.100L19 10l-5.100 1.900L12 17l-1.900-5.100L5 10l5.100-1.900zM19 16l.8 2.200L22 19l-2.200.8L19 22l-.8-2.200L16 19l2.200-.8z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-reply" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2L21 2M16 7l3 3M14 9l2 2"/></symbol>
+  </defs>
+</svg>
+
+<div class="progress" id="progress" aria-hidden="true"><i></i></div>
+<div class="bg-fx" aria-hidden="true"><i class="bf b1"></i><i class="bf b2"></i><i class="bf b3"></i><i class="bf b4"></i><i class="bf b5"></i><i class="bf b6"></i></div>
+<canvas id="fx-canvas" class="fx-canvas" aria-hidden="true"></canvas>
+
+<!-- WELCOME / INPUT NAMA -->
+<div id="welcome" class="welcome" role="dialog" aria-modal="true" aria-labelledby="w-title">
+  <div class="w-bg" aria-hidden="true"><i class="wb wb1"></i><i class="wb wb2"></i><i class="wb wb3"></i><i class="wb wb4"></i><i class="wb wb5"></i><i class="wb wb6"></i><i class="wb wb7"></i></div>
+  <div class="w-stage">
+    <div class="w-card" id="w-card">
+      <div class="w-logo"><svg class="ic"><use href="#i-bolt"/></svg></div>
+      <span class="w-k">AM PREMIFY &bull; PREMIUM PANEL</span>
+      <h2 id="w-title" class="w-title"><span id="w-type">Halo! Siapa namamu?</span><i class="caret"></i></h2>
+      <p class="w-sub" id="w-sub">Kenalan dulu yuk. Namamu dipakai untuk menyapa di dashboard dan hanya tersimpan di perangkat ini.</p>
+      <form id="w-form" class="w-form" autocomplete="off" novalidate>
+        <label class="kicker" for="w-name">NAMA PANGGILANMU</label>
+        <div class="field w-field" id="w-field">
+          <svg class="ic"><use href="#i-user"/></svg>
+          <input id="w-name" class="input" maxlength="20" placeholder="Contoh: Budi" autocomplete="off" autocapitalize="words" enterkeyhint="go" spellcheck="false">
+          <span class="w-count" id="w-count">0/20</span>
+        </div>
+        <div class="w-pass hidden" id="w-pass-box">
+          <label class="kicker" for="w-pass">KATA SANDI DEVELOPER</label>
+          <div class="field w-field" id="w-pass-field">
+            <svg class="ic"><use href="#i-key"/></svg>
+            <input id="w-pass" class="input" type="password" maxlength="200" placeholder="Sama dengan kata sandi /admin" autocomplete="current-password" spellcheck="false">
+          </div>
+          <p class="w-hint">Nama ini khusus developer. Cukup sekali: perangkat ini akan diingat sebagai developer (centang biru).</p>
+        </div>
+        <p class="w-err" id="w-err" role="alert"></p>
+        <div class="w-preview" id="w-prev" aria-hidden="true"><span>Tampilan sapaan</span><b>Halo, <em id="w-prev-name">...</em>!</b></div>
+        <button class="btn btn-dark" id="w-go" type="submit"><span>Mulai Sekarang</span><svg class="ic"><use href="#i-arrow"/></svg></button>
+        <button class="link-btn w-cancel hidden" id="w-cancel" type="button">Batal</button>
+      </form>
+    </div>
+    <div class="w-hello hidden" id="w-hello" aria-live="polite">
+      <span class="wh-k">HALO,</span>
+      <b class="wh-name" id="wh-name"></b>
+      <span class="wh-s">Menyiapkan dashboardmu...</span>
+      <div class="wh-bar"><i></i></div>
+    </div>
+  </div>
+</div>
+<button class="to-top hidden" id="to-top" type="button" aria-label="Kembali ke atas"><svg class="ic"><use href="#i-up"/></svg></button>
+
+<template id="warn-tpl">
+  <div class="warn" role="alert">
+    <div class="warn-in">
+      <div class="warn-ic"><svg class="ic"><use href="#i-alert"/></svg></div>
+      <div>
+        <h4>PERINGATAN KERAS!</h4>
+        <strong>Jangan menjual belikan website ataupun akun Alight Motion yang premium!!!</strong>
+        <p>Segala bentuk jual beli, penyewaan, maupun penyebaran akses panel dan akun premium tidak diizinkan.</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <div class="logo"><svg class="ic"><use href="#i-bolt"/></svg></div>
+      <div>
+        <h1>AM Premify</h1>
+        <span class="tag">PREMIUM PANEL</span>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <a class="tab active" href="/index" data-tab="home" role="tab"><svg class="ic"><use href="#i-grid"/></svg><span>Dashboard</span></a>
+      <a class="tab" href="/premium" data-tab="premium" role="tab"><svg class="ic"><use href="#i-shield"/></svg><span>Premiumkan</span></a>
+      <a class="tab" href="/panduan" data-tab="guide" role="tab"><svg class="ic"><use href="#i-book"/></svg><span>Panduan</span></a>
+      <a class="tab" href="/bypass" role="tab"><svg class="ic"><use href="#i-link"/></svg><span>Bypass</span></a>
+      <a class="tab" href="/rating" data-tab="reviews" role="tab"><svg class="ic"><use href="#i-star"/></svg><span>Rating</span></a>
+      <a class="tab" href="/room" data-tab="room" role="tab"><svg class="ic"><use href="#i-users"/></svg><span>Room</span></a>
+    </nav>
+    <div class="top-actions">
+      <button class="srch-btn" id="cmd-open" type="button" aria-label="Buka perintah cepat" aria-haspopup="dialog"><svg class="ic"><use href="#i-search"/></svg><span>Cari fitur…</span><kbd>Ctrl K</kbd></button>
+      <button class="chat-btn" id="chat-open" type="button" aria-label="Chat admin" aria-haspopup="dialog" aria-controls="chat" aria-expanded="false"><svg class="ic"><use href="#i-msg"/></svg><span class="chat-dot hidden" id="chat-dot" aria-hidden="true">0</span></button>
+      <button class="profile-btn" id="profile-btn" type="button" aria-label="Ganti nama"><span class="avatar" id="avatar">?</span><span class="pname" id="pname"></span></button>
+      <button class="menu-btn" id="menu-open" type="button" aria-label="Buka menu" aria-haspopup="dialog" aria-controls="sheet"><svg class="ic"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>AM PREMIFY <i>&#9733;</i> VIP PRO 1 TAHUN <i>&#9733;</i> AKTIVASI OTOMATIS <i>&#9733;</i> REAL-TIME <i>&#9733;</i> DILARANG JUAL BELI AKUN <i>&#9733;</i></span><span>AM PREMIFY <i>&#9733;</i> VIP PRO 1 TAHUN <i>&#9733;</i> AKTIVASI OTOMATIS <i>&#9733;</i> REAL-TIME <i>&#9733;</i> DILARANG JUAL BELI AKUN <i>&#9733;</i></span><span>AM PREMIFY <i>&#9733;</i> VIP PRO 1 TAHUN <i>&#9733;</i> AKTIVASI OTOMATIS <i>&#9733;</i> REAL-TIME <i>&#9733;</i> DILARANG JUAL BELI AKUN <i>&#9733;</i></span><span>AM PREMIFY <i>&#9733;</i> VIP PRO 1 TAHUN <i>&#9733;</i> AKTIVASI OTOMATIS <i>&#9733;</i> REAL-TIME <i>&#9733;</i> DILARANG JUAL BELI AKUN <i>&#9733;</i></span></div></div>
+</header>
+
+<main class="container">
+
+  <!-- DASHBOARD -->
+  <section class="view" data-view="home">
+    <div class="card hero">
+      <i class="shape s-circle"></i><i class="shape s-square"></i><i class="shape s-ring"></i>
+      <div class="hero-art" aria-hidden="true">
+        <div class="va-card">
+          <div class="va-top"><span class="va-logo"><svg class="ic"><use href="#i-bolt"/></svg></span><span class="va-chip">VIP PRO</span></div>
+          <div class="va-num">AM &bull; PREMIFY &bull; VIP</div>
+          <div class="va-bot"><span><small>PEMEGANG</small><b data-user></b></span><span><small>MASA AKTIF</small><b>1 TAHUN</b></span></div>
+          <i class="va-shine"></i>
+        </div>
+        <span class="va-pill p1"><svg class="ic sm"><use href="#i-check"/></svg>Aktivasi otomatis</span>
+        <span class="va-pill p2"><svg class="ic sm"><use href="#i-pulse"/></svg>Real-time</span>
+      </div>
+      <div class="hero-badges">
+        <span class="chip"><svg class="ic"><use href="#i-code"/></svg>DEVELOPER: KENZ</span>
+        <span class="chip gold"><svg class="ic"><use href="#i-star"/></svg>VIP PRO 1 TAHUN</span>
+        <span class="chip clock"><svg class="ic"><use href="#i-clock"/></svg><b id="clock">--.--.--</b></span>
+      </div>
+      <span class="greet-k" id="greet">SELAMAT DATANG</span>
+      <h2>Halo, <mark data-user></mark>!</h2>
+      <p class="hero-p"><span id="typer">Selamat datang di panel AM Premify.</span><i class="caret"></i></p>
+      <div class="hero-actions">
+        <button class="btn btn-sand" data-goto="premium"><svg class="ic"><use href="#i-shield"/></svg><span>Premiumkan Akun</span></button>
+        <button class="btn btn-ghost" data-goto="guide"><svg class="ic"><use href="#i-book"/></svg><span>Panduan</span></button>
+      </div>
+    </div>
+
+    <div class="ms-grid" id="ms-grid">
+      <div class="ms ms-a"><span class="ms-ic"><svg class="ic"><use href="#i-flame"/></svg></span><div><b id="ms-streak">1</b><small>Hari beruntun</small></div></div>
+      <div class="ms ms-b"><span class="ms-ic"><svg class="ic"><use href="#i-ok"/></svg></span><div><b id="ms-acc">0</b><small>Akunmu aktif</small></div></div>
+      <div class="ms ms-c"><span class="ms-ic"><svg class="ic"><use href="#i-pulse"/></svg></span><div><b id="ms-visit">1</b><small>Kunjungan</small></div></div>
+    </div>
+
+    <div data-warn></div>
+
+    <a class="card rate-mini" id="rate-mini" href="/rating" data-goto-link="reviews" aria-label="Lihat rating dan ulasan pengguna">
+      <span class="rm-badge"><svg class="ic"><use href="#i-star"/></svg></span>
+      <span class="rm-main">
+        <span class="kicker">RATING PENGGUNA</span>
+        <span class="rm-score"><b id="rm-avg">&ndash;</b><small>/5</small><span id="rm-stars"></span></span>
+        <span class="rm-sub" id="rm-sub">Memuat rating...</span>
+      </span>
+      <span class="rm-go"><svg class="ic"><use href="#i-arrow"/></svg></span>
+    </a>
+
+    <div class="live-head">
+      <h3 class="card-title"><svg class="ic"><use href="#i-pulse"/></svg>Aktivitas Real-time</h3>
+      <span class="live-badge wait" id="live-badge"><i></i><b>MENYAMBUNG</b></span>
+    </div>
+
+    <div class="stats">
+      <div class="card stat">
+        <div class="stat-top">
+          <span class="kicker">TOTAL AKTIVASI SUKSES</span>
+          <span class="stat-icon"><svg class="ic"><use href="#i-trend"/></svg></span>
+        </div>
+        <div class="stat-num" id="stat-total">0</div>
+        <span class="stat-sub">Seluruh waktu</span>
+      </div>
+      <div class="card stat stat-gold">
+        <div class="stat-top">
+          <span class="kicker">AKTIVASI HARI INI</span>
+          <span class="stat-icon"><svg class="ic"><use href="#i-star"/></svg></span>
+        </div>
+        <div class="stat-num" id="stat-today">0</div>
+        <span class="stat-sub">Zona waktu WIB</span>
+      </div>
+    </div>
+    <p class="live-hint hidden" id="live-hint"></p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="row-between">
+          <h3 class="card-title"><svg class="ic"><use href="#i-trend"/></svg>7 Hari Terakhir</h3>
+        </div>
+        <div class="bars" id="bars"><div class="empty wide">Menunggu data...</div></div>
+      </div>
+
+      <div class="card">
+        <div class="row-between">
+          <h3 class="card-title"><svg class="ic"><use href="#i-pulse"/></svg>Aktivitas Terbaru</h3>
+          <span class="muted-mono">LIVE FEED</span>
+        </div>
+        <div class="feed" id="feed"><div class="empty">Menunggu aktivitas baru...</div></div>
+      </div>
+    </div>
+
+    <div class="card visitor" id="visitor">
+      <div class="vis-head">
+        <div>
+          <h3 class="vis-title">Info Pengunjung</h3>
+          <p class="vis-sub">Data perangkatmu saat ini</p>
+        </div>
+        <span class="role-badge"><svg class="ic"><use href="#i-user"/></svg>USER</span>
+      </div>
+
+      <div class="vrow">
+        <div class="vicon green"><svg class="ic"><use href="#i-globe"/></svg></div>
+        <div class="vmeta">
+          <span class="vlabel">IP Address</span>
+          <b class="vval" id="v-ip">Memuat...</b>
+          <span class="vsub" id="v-loc">Mendeteksi lokasi...</span>
+        </div>
+        <button class="mini" id="v-copy" aria-label="Salin IP"><svg class="ic"><use href="#i-copy"/></svg></button>
+      </div>
+
+      <div class="vrow">
+        <div class="vicon orange"><svg class="ic"><use href="#i-battery"/></svg></div>
+        <div class="vmeta">
+          <span class="vlabel">Baterai</span>
+          <b class="vval" id="v-bat">Memeriksa...</b>
+          <div class="vbar"><i id="v-bat-bar"></i></div>
+          <span class="vsub" id="v-bat-sub">Membaca status baterai...</span>
+        </div>
+      </div>
+
+      <button class="link-btn" id="v-refresh"><svg class="ic sm"><use href="#i-refresh"/></svg>Muat ulang info</button>
+    </div>
+
+    <div class="grid">
+      <div class="card contact-mini">
+        <span class="kicker">BUTUH BANTUAN?</span>
+        <p>Ada kendala saat aktivasi? Tim kami siap membantu.</p>
+        <a class="btn btn-wa js-wa" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg><span>Hubungi Kami</span></a>
+      </div>
+
+      <div class="card">
+        <div class="row-between">
+          <h3 class="card-title"><svg class="ic"><use href="#i-user"/></svg>Akun Saya</h3>
+          <button class="link-btn" id="clear-all">Hapus Semua</button>
+        </div>
+        <div id="recent" class="list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREMIUMKAN AKUN -->
+  <section class="view hidden" data-view="premium">
+    <div data-warn></div>
+    <div class="card blocked-card hidden" id="blocked-card" role="alert">
+      <span class="bk-ic"><svg class="ic"><use href="#i-ban"/></svg></span>
+      <div>
+        <h3>Fitur Premium dinonaktifkan</h3>
+        <p id="blocked-txt">Admin menonaktifkan fitur premium untuk perangkat ini.</p>
+        <button class="btn btn-dark" id="blocked-chat" type="button"><svg class="ic"><use href="#i-msg"/></svg><span>Chat Admin</span></button>
+      </div>
+    </div>
+    <div class="stepper" id="stepper">
+      <div class="stp active" data-step="1"><span class="stp-k">LANGKAH 1</span><b>Email</b><svg class="ic"><use href="#i-check"/></svg></div>
+      <div class="stp" data-step="2"><span class="stp-k">LANGKAH 2</span><b>Link</b><svg class="ic"><use href="#i-check"/></svg></div>
+      <div class="stp" data-step="3"><span class="stp-k">LANGKAH 3</span><b>VIP Pro</b><svg class="ic"><use href="#i-check"/></svg></div>
+    </div>
+
+    <div class="grid">
+      <form id="send-form" class="card form">
+        <div class="step"><span class="num">1</span>Kirim Magic Link</div>
+        <p class="hint">Link verifikasi akan dikirim langsung ke email akun Alight Motion.</p>
+        <label class="kicker" for="email">EMAIL TARGET</label>
+        <div class="field">
+          <svg class="ic"><use href="#i-mail"/></svg>
+          <input id="email" type="email" class="input" placeholder="target@gmail.com" required autocomplete="off">
+          <svg class="ic valid-ic"><use href="#i-check"/></svg>
+        </div>
+        <button id="send-btn" class="btn" type="submit"><svg class="ic"><use href="#i-send"/></svg><span>Kirim Magic Link</span></button>
+      </form>
+
+      <form id="verify-form" class="card form">
+        <div class="step"><span class="num">2</span>Verifikasi &amp; Jadi Premium</div>
+        <p class="hint">Tempel link dari email, lalu aktifkan lisensi VIP Pro.</p>
+        <label class="kicker" for="magic">TEMPEL LINK DARI EMAIL</label>
+        <div class="field top">
+          <svg class="ic"><use href="#i-link"/></svg>
+          <textarea id="magic" class="input" rows="3" placeholder="https://alightcreative.page.link/..." required></textarea>
+          <button type="button" class="paste-btn" id="paste-btn"><svg class="ic sm"><use href="#i-paste"/></svg><span>Tempel</span></button>
+        </div>
+        <button id="verify-btn" class="btn btn-dark" type="submit" disabled><svg class="ic"><use href="#i-shield"/></svg><span>Verifikasi &amp; Aktifkan VIP</span></button>
+      </form>
+    </div>
+
+    <div class="card cf-card" id="cf-card">
+      <div class="cf-head">
+        <svg class="ic"><use href="#i-shield"/></svg>
+        <b>VERIFIKASI MANUSIA</b>
+        <span class="cf-state" id="cf-state">BELUM</span>
+      </div>
+      <div class="cf-box" id="cf-box"><span class="cf-loading" id="cf-loading">Memuat Cloudflare...</span></div>
+    </div>
+
+    <div class="term" id="term">
+      <div class="term-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="term-title"><svg class="ic sm"><use href="#i-terminal"/></svg>premify_terminal.log</div>
+        <div class="term-actions">
+          <button class="tbtn" id="term-copy" title="Salin log"><svg class="ic sm"><use href="#i-copy"/></svg><span>Salin</span></button>
+          <button class="tbtn icon" id="term-clear" title="Bersihkan log"><svg class="ic sm"><use href="#i-trash"/></svg></button>
+          <button class="tbtn icon" id="term-toggle" title="Ciutkan"><svg class="ic sm"><use href="#i-chev"/></svg></button>
+        </div>
+      </div>
+      <div class="term-body" id="term-body" role="log" aria-live="polite"></div>
+    </div>
+
+    <a class="help-bar js-wa" target="_blank" rel="noopener">
+      <svg class="ic"><use href="#i-wa"/></svg>
+      <span>Ada kendala? <b>Hubungi kami via WhatsApp</b></span>
+      <svg class="ic"><use href="#i-arrow"/></svg>
+    </a>
+  </section>
+
+  <!-- PANDUAN -->
+  <section class="view hidden" data-view="guide">
+    <div class="card head-card">
+      <span class="kicker">PANDUAN PENGGUNAAN</span>
+      <h2>3 langkah, akun jadi premium</h2>
+      <p>Ikuti alur berikut dari awal sampai akun aktif sebagai VIP Pro.</p>
+    </div>
+
+    <div class="guide">
+      <article class="card g-card">
+        <div class="g-top"><span class="g-num">01</span><span class="g-ic"><svg class="ic"><use href="#i-mail"/></svg></span></div>
+        <h3>MASUKKAN EMAIL</h3>
+        <p>Ketikkan email Alight Motion Anda. Sistem memicu pengiriman magic link resmi melalui IdentityToolkit Android.</p>
+      </article>
+      <article class="card g-card">
+        <div class="g-top"><span class="g-num">02</span><span class="g-ic"><svg class="ic"><use href="#i-link"/></svg></span></div>
+        <h3>SALIN DARI EMAIL</h3>
+        <p>Buka pesan masuk dari Alight Motion di inbox / spam. Salin tautan tombol "Sign In / Verify".</p>
+      </article>
+      <article class="card g-card">
+        <div class="g-top"><span class="g-num">03</span><span class="g-ic"><svg class="ic"><use href="#i-crown"/></svg></span></div>
+        <h3>AKTIVASI OTOMATIS</h3>
+        <p>Tempel link dan klik verifikasi. Sistem otomatis login dan mengaktifkan lisensi VIP Pro 1 Tahun.</p>
+      </article>
+    </div>
+
+    <div data-warn></div>
+
+    <div class="card faq" id="faq">
+      <span class="kicker">PERTANYAAN UMUM</span>
+      <h3 class="faq-h">Sering ditanyakan</h3>
+      <details class="faq-i" name="faq"><summary><span>Magic link tidak masuk ke email?</span><svg class="ic"><use href="#i-down"/></svg></summary><div class="faq-a"><p>Cek folder Spam atau Promosi, tunggu beberapa saat, lalu pastikan email yang diketik sudah benar. Kalau masih belum ada, kirim ulang dari langkah 1.</p></div></details>
+      <details class="faq-i" name="faq"><summary><span>Link yang ditempel ditolak?</span><svg class="ic"><use href="#i-down"/></svg></summary><div class="faq-a"><p>Pastikan seluruh tautan tersalin utuh dari tombol "Sign In / Verify" di email dan tidak terpotong. Gunakan tombol Tempel di halaman Premiumkan supaya lebih mudah.</p></div></details>
+      <details class="faq-i" name="faq"><summary><span>Namaku disimpan di mana?</span><svg class="ic"><use href="#i-down"/></svg></summary><div class="faq-a"><p>Nama panggilan hanya tersimpan di perangkat ini dan dipakai untuk menyapa di dashboard. Kamu bisa menggantinya kapan saja lewat menu.</p></div></details>
+      <details class="faq-i" name="faq"><summary><span>Boleh menjual akun atau panel ini?</span><svg class="ic"><use href="#i-down"/></svg></summary><div class="faq-a"><p>Tidak. Dilarang menjual, menyewakan, atau memperjualbelikan website maupun akun Alight Motion premium hasil aktivasi.</p></div></details>
+      <details class="faq-i" name="faq"><summary><span>Masih ada kendala?</span><svg class="ic"><use href="#i-down"/></svg></summary><div class="faq-a"><p>Hubungi developer lewat tombol Chat WhatsApp di bawah, pesan otomatis langsung terisi dan tinggal dikirim.</p></div></details>
+    </div>
+
+    <div class="card contact">
+      <div class="contact-info">
+        <span class="kicker">HUBUNGI KAMI</span>
+        <h3>Masih bingung atau ada kendala?</h3>
+        <p>Klik tombol di bawah, pesan otomatis langsung terisi dan tinggal dikirim.</p>
+        <div class="phone"><svg class="ic"><use href="#i-phone"/></svg><span id="phone-text">082357961890</span></div>
+      </div>
+      <a class="btn btn-wa js-wa" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg><span>Chat WhatsApp</span></a>
+    </div>
+
+    <button class="btn btn-dark" data-goto="premium"><svg class="ic"><use href="#i-shield"/></svg><span>Mulai Premiumkan Akun</span></button>
+  </section>
+
+  <!-- RATING, ULASAN, BUKTI SUKSES -->
+  <section class="view hidden" data-view="reviews" id="rv-view">
+    <div class="card head-card rv-head">
+      <span class="kicker">KOMUNITAS PENGGUNA</span>
+      <h2>Rating, ulasan &amp; bukti sukses</h2>
+      <p>Penilaian asli dari pengguna AM Premify, diperbarui real-time. Nama di ulasan mengikuti nama yang kamu isi saat awal masuk.</p>
+      <span class="live-badge wait" id="rv-live"><i></i><b>MENYAMBUNG</b></span>
+    </div>
+
+    <div class="rv-tabs" role="tablist" aria-label="Menu rating">
+      <button class="rv-tab active" type="button" role="tab" data-sub="rating" aria-selected="true"><svg class="ic"><use href="#i-star"/></svg><span>Rating</span></button>
+      <button class="rv-tab" type="button" role="tab" data-sub="ulasan" aria-selected="false"><svg class="ic"><use href="#i-msg"/></svg><span>Ulasan</span><em class="n" id="rvt-ulasan-n">0</em></button>
+      <button class="rv-tab" type="button" role="tab" data-sub="bukti" aria-selected="false"><svg class="ic"><use href="#i-image"/></svg><span><span class="lg">Bukti Sukses</span><span class="sm">Bukti</span></span><em class="n" id="rvt-bukti-n">0</em></button>
+    </div>
+
+    <div class="rv-pane" data-pane="rating">
+      <div class="card rv-sum">
+        <div class="rv-score-box">
+          <span class="rv-real"><i></i>DIHITUNG LANGSUNG DARI ULASAN</span>
+          <div class="rv-score"><b id="rv-avg">&ndash;</b><span>/5</span></div>
+          <div id="rv-avg-stars"></div>
+          <p class="rv-count" id="rv-count">Memuat data...</p>
+        </div>
+        <div class="rv-dist" id="rv-dist" aria-label="Sebaran rating"></div>
+      </div>
+      <div class="card rv-mine" id="rv-mine"></div>
+    </div>
+
+    <div class="rv-pane hidden" data-pane="ulasan">
+      <div class="rv-chips" id="rv-chips" role="group" aria-label="Filter bintang">
+        <button class="rv-chip active" type="button" data-f="0">Semua</button>
+        <button class="rv-chip" type="button" data-f="5">5 &#9733;</button>
+        <button class="rv-chip" type="button" data-f="4">4 &#9733;</button>
+        <button class="rv-chip" type="button" data-f="3">3 &#9733;</button>
+        <button class="rv-chip" type="button" data-f="2">2 &#9733;</button>
+        <button class="rv-chip" type="button" data-f="1">1 &#9733;</button>
+      </div>
+      <div class="rv-list" id="rv-list"></div>
+      <button class="btn rv-more hidden" id="rv-more" type="button" data-more="ulasan"><svg class="ic"><use href="#i-down"/></svg><span>Muat lebih banyak</span></button>
+    </div>
+
+    <div class="rv-pane hidden" data-pane="bukti">
+      <div class="card pf-intro">
+        <span class="kicker">BUKTI SUKSES</span>
+        <p>Screenshot akun AM Premium yang berhasil diaktifkan, diunggah langsung oleh pengguna. Ketuk gambar untuk memperbesar.</p>
+      </div>
+      <div class="pf-grid" id="pf-grid"></div>
+      <button class="btn rv-more hidden" id="pf-more" type="button" data-more="bukti"><svg class="ic"><use href="#i-down"/></svg><span>Muat lebih banyak</span></button>
+    </div>
+  </section>
+
+  <!-- ROOM PUBLIK -->
+  <section class="view hidden" data-view="room" id="room-view">
+    <div class="card head-card rm-head">
+      <span class="kicker">KOMUNITAS</span>
+      <h2>Room publik</h2>
+      <p>Tempat semua pengguna AM Premify saling berkenalan dan ngobrol. Pesan tampil real-time.</p>
+      <span class="live-badge wait" id="rm-live"><i></i><b>MENYAMBUNG</b></span>
+    </div>
+    <div class="card rm-card">
+      <div class="rm-bar">
+        <span class="rm-online"><i></i><b id="rm-online">0</b> online</span>
+        <span class="rm-rules">Sopan, tanpa spam, dilarang jual beli akun. Jangan bagikan email atau kata sandi.</span>
+      </div>
+      <div class="rm-body" id="rm-body" role="log" aria-live="polite" aria-label="Percakapan room publik"></div>
+      <button class="chat-new hidden" id="rm-new" type="button"><svg class="ic sm"><use href="#i-down"/></svg>Pesan baru</button>
+      <div class="rm-foot">
+        <div class="rm-reto hidden" id="rm-reto"><span></span><button type="button" id="rm-reto-x" aria-label="Batal membalas"><svg class="ic sm"><use href="#i-x"/></svg></button></div>
+        <p class="chat-err" id="rm-err" role="alert"></p>
+        <form class="rm-form" id="rm-form" autocomplete="off">
+          <textarea class="chat-in" id="rm-in" rows="1" maxlength="300" placeholder="Tulis pesan untuk semua orang…" aria-label="Tulis pesan"></textarea>
+          <button class="chat-send" id="rm-send" type="submit" aria-label="Kirim" disabled><svg class="ic"><use href="#i-send"/></svg></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIODATA DEVELOPER -->
+  <section class="view hidden bio" data-view="bio">
+    <div class="bio-top">
+      <button class="bio-back" id="bio-back" type="button" aria-label="Kembali"><svg class="ic"><use href="#i-back"/></svg></button>
+      <span class="bio-title">DEVELOPER PROFILE</span>
+    </div>
+
+    <div class="card bio-hero">
+      <div class="bio-avatar"><svg class="ic"><use href="#i-user"/></svg></div>
+      <h2 class="bio-name"><span>kenzchillz</span></h2>
+      <p class="bio-role">FULL-STACK DEVELOPER MUDA</p>
+      <span class="bio-status"><i></i>AKTIF CODING</span>
+    </div>
+
+    <div class="card bio-card">
+      <h3 class="bio-k">PROFIL SINGKAT</h3>
+      <ul class="bio-info">
+        <li><span class="bi green"><svg class="ic"><use href="#i-pin"/></svg></span><div><small>ASAL</small><b>Kalimantan Tengah</b></div></li>
+        <li><span class="bi blue"><svg class="ic"><use href="#i-book"/></svg></span><div><small>STATUS</small><b>Pelajar</b></div></li>
+        <li><span class="bi pink"><svg class="ic"><use href="#i-code"/></svg></span><div><small>FOKUS</small><b>Web Development</b></div></li>
+        <li><span class="bi gold"><svg class="ic"><use href="#i-gamepad"/></svg></span><div><small>HOBI</small><b>Main Game</b></div></li>
+      </ul>
+    </div>
+
+    <div class="card bio-card">
+      <h3 class="bio-k">KEAHLIAN</h3>
+      <div class="bio-skills">
+        <span class="sk s1">HTML/CSS</span>
+        <span class="sk s2">JavaScript</span>
+        <span class="sk s3">Node.js</span>
+        <span class="sk s4">Supabase</span>
+        <span class="sk s5">Tailwind CSS</span>
+      </div>
+    </div>
+
+    <figure class="bio-quote">
+      <div class="bq-mark" aria-hidden="true">&ldquo;</div>
+      <blockquote>Setiap bug itu seperti level baru dalam game. Aku belajar, mencoba lagi, dan tidak berhenti sebelum menang.</blockquote>
+      <figcaption>&mdash; kenzchillz, 2026</figcaption>
+    </figure>
+
+    <a class="bio-support" href="https://sociabuzz.com/kenzchillz/tribe" target="_blank" rel="noopener noreferrer">
+      <svg class="ic"><use href="#i-heart"/></svg><span>Dukung kenzchillz via Sociabuzz</span><svg class="ic"><use href="#i-ext"/></svg>
+    </a>
+  </section>
+
+</main>
+
+<footer class="footer">AM Premify v4.8 &bull; Developer kenz</footer>
+<div id="warn-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="wm-title">
+  <div class="modal-card">
+    <div class="modal-stripe"></div>
+    <div class="modal-body">
+      <div class="warn-ic big"><svg class="ic"><use href="#i-ban"/></svg></div>
+      <h3 id="wm-title">PERINGATAN KERAS!</h3>
+      <p class="wm-main">JANGAN MENJUAL BELIKAN WEBSITE ATAUPUN AKUN ALIGHT MOTION YANG PREMIUM!!!</p>
+      <ul>
+        <li><svg class="ic sm"><use href="#i-fail"/></svg>Dilarang menjual atau menyewakan website / akses panel ini.</li>
+        <li><svg class="ic sm"><use href="#i-fail"/></svg>Dilarang memperjualbelikan akun Alight Motion premium hasil aktivasi.</li>
+      </ul>
+      <button class="btn btn-sand" id="warn-ok"><svg class="ic"><use href="#i-check"/></svg><span>Saya Mengerti</span></button>
+    </div>
+  </div>
+</div>
+
+
+<!-- POPUP SALURAN WHATSAPP -->
+<div id="ch-pop" class="ch-pop hidden" role="dialog" aria-modal="true" aria-labelledby="ch-title">
+  <div class="ch-back" data-ch-close></div>
+  <div class="ch-card" id="ch-card">
+    <div class="modal-stripe"></div>
+    <button class="ch-x" type="button" data-ch-close aria-label="Tutup"><svg class="ic"><use href="#i-fail"/></svg></button>
+    <div class="ch-body">
+      <div class="ch-ico"><span class="ch-ring"></span><span class="ch-ring r2"></span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa-fill"/></svg><b class="ch-dot">1</b></div>
+      <span class="ch-k">SALURAN RESMI &bull; GRATIS</span>
+      <h3 id="ch-title" class="ch-title">Ikuti saluran <span class="nb"><mark>kenzchillz</mark>!</span></h3>
+      <p class="ch-sub">Biar nggak ketinggalan update fitur, info preset terbaru, dan pengumuman penting AM Premify langsung di WhatsApp kamu.</p>
+      <ul class="ch-list">
+        <li style="--i:0"><svg class="ic sm"><use href="#i-check"/></svg>Update fitur &amp; info terbaru duluan</li>
+        <li style="--i:1"><svg class="ic sm"><use href="#i-check"/></svg>Pengumuman penting dari developer</li>
+        <li style="--i:2"><svg class="ic sm"><use href="#i-check"/></svg>Gratis, anonim, tinggal klik Ikuti</li>
+      </ul>
+      <a class="btn ch-go" id="ch-go" href="https://whatsapp.com/channel/0029Vb99yLaK0IBgYkp9KR2q" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa-fill"/></svg><span>Ikuti Saluran Sekarang</span><svg class="ic"><use href="#i-arrow"/></svg>
+      </a>
+      <button class="link-btn ch-later" id="ch-later" type="button" data-ch-close>Nanti saja</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP DONASI (muncul setelah popup saluran ditutup) -->
+<div id="dn-pop" class="ch-pop dn-pop hidden" role="dialog" aria-modal="true" aria-labelledby="dn-title">
+  <div class="ch-back" data-dn-close></div>
+  <div class="ch-card" id="dn-card">
+    <div class="modal-stripe"></div>
+    <button class="ch-x" type="button" data-dn-close aria-label="Tutup"><svg class="ic"><use href="#i-fail"/></svg></button>
+    <div class="ch-body">
+      <div class="ch-ico"><span class="ch-ring"></span><span class="ch-ring r2"></span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg></div>
+      <span class="ch-k">DUKUNG DEVELOPER &bull; SEIKHLASNYA</span>
+      <h3 id="dn-title" class="ch-title">Traktir <span class="nb"><mark>kenz</mark></span> yuk!</h3>
+      <p class="ch-sub">AM Premify gratis dipakai dan dikelola sendirian. Dukunganmu bantu website ini tetap online dan terus berkembang.</p>
+      <ul class="ch-list">
+        <li style="--i:0"><svg class="ic sm"><use href="#i-check"/></svg>Bantu biaya server &amp; database</li>
+        <li style="--i:1"><svg class="ic sm"><use href="#i-check"/></svg>Fitur baru bisa hadir lebih cepat</li>
+        <li style="--i:2"><svg class="ic sm"><use href="#i-check"/></svg>Nominal bebas, tanpa paksaan</li>
+      </ul>
+      <a class="btn ch-go" id="dn-go" href="https://sociabuzz.com/kenzchillz/tribe" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg><span>Donasi via Sociabuzz</span><svg class="ic"><use href="#i-arrow"/></svg>
+      </a>
+      <button class="link-btn ch-later" id="dn-later" type="button" data-dn-close>Mungkin lain kali</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP RATING (sekali setelah sukses create, atau dari menu Rating) -->
+<div id="rate-pop" class="rt-pop hidden" role="dialog" aria-modal="true" aria-labelledby="rt-title">
+  <div class="rt-back" data-rt-close></div>
+  <div class="rt-card" id="rt-card">
+    <div class="modal-stripe"></div>
+    <button class="ch-x" type="button" data-rt-close aria-label="Tutup"><svg class="ic"><use href="#i-fail"/></svg></button>
+
+    <form id="rt-form" class="rt-body" autocomplete="off" novalidate>
+      <div class="rt-head">
+        <span class="rt-badge"><svg class="ic"><use href="#i-star"/></svg></span>
+        <span class="rt-k" id="rt-k">AKUN BERHASIL JADI VIP</span>
+        <h3 id="rt-title" class="rt-title">Bagaimana pengalamanmu?</h3>
+        <p class="rt-sub" id="rt-sub"></p>
+      </div>
+
+      <div class="rt-who"><svg class="ic sm"><use href="#i-user"/></svg><span>Tampil sebagai</span><b id="rt-name">Teman</b></div>
+
+      <div class="rt-stars" id="rt-stars" role="radiogroup" aria-label="Rating bintang 1 sampai 5">
+        <button type="button" class="rt-star" role="radio" aria-checked="false" data-v="1" aria-label="1 bintang"></button>
+        <button type="button" class="rt-star" role="radio" aria-checked="false" data-v="2" aria-label="2 bintang"></button>
+        <button type="button" class="rt-star" role="radio" aria-checked="false" data-v="3" aria-label="3 bintang"></button>
+        <button type="button" class="rt-star" role="radio" aria-checked="false" data-v="4" aria-label="4 bintang"></button>
+        <button type="button" class="rt-star" role="radio" aria-checked="false" data-v="5" aria-label="5 bintang"></button>
+      </div>
+      <p class="rt-label" id="rt-label" data-r="0" aria-live="polite">Ketuk bintang untuk menilai</p>
+
+      <div class="rt-sec">
+        <label class="kicker" for="rt-text">ULASAN <small>(opsional)</small></label>
+        <div class="field top"><textarea id="rt-text" class="input" rows="3" maxlength="400" placeholder="Ceritakan pengalamanmu memakai AM Premify..."></textarea></div>
+        <span class="rt-cnt" id="rt-cnt">0/400</span>
+      </div>
+
+      <div class="rt-sec">
+        <span class="kicker">BUKTI AKUN AM PREMIUM <small>(opsional)</small></span>
+        <button type="button" class="rt-drop" id="rt-drop">
+          <span class="rt-drop-ic"><svg class="ic"><use href="#i-upload"/></svg></span>
+          <span class="rt-drop-tx"><b>Unggah screenshot akun premium</b><small>JPG / PNG / WEBP, otomatis dikompres</small></span>
+          <img id="rt-prev" class="rt-prev hidden" alt="Pratinjau bukti akun">
+        </button>
+        <input type="file" id="rt-file" accept="image/jpeg,image/png,image/webp,image/*" hidden>
+        <button type="button" class="link-btn rt-rm hidden" id="rt-rm"><svg class="ic sm"><use href="#i-trash"/></svg>Hapus gambar</button>
+        <p class="rt-note"><svg class="ic sm"><use href="#i-info"/></svg>Bukti tampil publik di menu Bukti Sukses. Sensor email dan data pribadi sebelum mengunggah.</p>
+      </div>
+
+      <p class="rt-err" id="rt-err" role="alert"></p>
+      <button class="btn btn-dark" id="rt-send" type="submit" disabled><svg class="ic"><use href="#i-send"/></svg><span>Kirim Rating</span></button>
+      <button class="link-btn ch-later" type="button" data-rt-close>Nanti saja</button>
+    </form>
+
+    <div class="rt-done hidden" id="rt-done" aria-live="polite">
+      <span class="rt-ok"><svg class="ic"><use href="#i-check"/></svg></span>
+      <h3 class="rt-title">Terima kasih, <mark id="rt-done-name"></mark>!</h3>
+      <div id="rt-done-stars"></div>
+      <p class="rt-sub">Rating kamu sudah tampil real-time untuk semua pengguna.</p>
+      <button class="btn btn-dark" id="rt-see" type="button"><svg class="ic"><use href="#i-msg"/></svg><span>Lihat Ulasan</span></button>
+      <button class="link-btn ch-later" type="button" data-rt-close>Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- PEMBESAR BUKTI SUKSES -->
+<div id="pf-view" class="pv hidden" role="dialog" aria-modal="true" aria-label="Bukti sukses">
+  <div class="pv-back" data-pv-close></div>
+  <figure class="pv-card">
+    <button class="ch-x pv-x" type="button" data-pv-close aria-label="Tutup"><svg class="ic"><use href="#i-fail"/></svg></button>
+    <div class="pv-img"><img id="pv-img" alt="Bukti akun AM Premium berhasil diaktifkan"></div>
+    <figcaption id="pv-cap"></figcaption>
+  </figure>
+</div>
+
+<div id="sheet" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-bg" data-close></div>
+  <div class="sheet-panel">
+    <button class="sheet-handle" type="button" data-close aria-label="Tutup menu"><i></i></button>
+    <h3 id="sheet-title" class="sheet-k">MENU</h3>
+    <a class="sheet-item" style="--i:0" href="https://sociabuzz.com/kenzchillz/tribe" target="_blank" rel="noopener noreferrer" data-close>
+      <span class="si-ic support"><svg class="ic"><use href="#i-heart"/></svg></span>
+      <span class="si-tx"><b>Dukung Developer</b><small>Kirim donasi via Sociabuzz</small></span>
+      <svg class="ic si-go"><use href="#i-ext"/></svg>
+    </a>
+    <a class="sheet-item" style="--i:1" href="/bypass">
+      <span class="si-ic"><svg class="ic"><use href="#i-link"/></svg></span>
+      <span class="si-tx"><b>Bypass Link</b><small>Buka link shortener langsung ke tujuan</small></span>
+      <svg class="ic si-go"><use href="#i-arrow"/></svg>
+    </a>
+    <a class="sheet-item gold" style="--i:1" href="/biodata" data-goto-link="bio">
+      <span class="si-ic"><svg class="ic"><use href="#i-user"/></svg></span>
+      <span class="si-tx"><b>Biodata Developer</b><small>Kenali siapa yang membangun ini</small></span>
+      <svg class="ic si-go"><use href="#i-arrow"/></svg>
+    </a>
+    <button class="sheet-item" style="--i:2" id="rename-btn" type="button">
+      <span class="si-ic rename"><svg class="ic"><use href="#i-edit"/></svg></span>
+      <span class="si-tx"><b>Ganti Nama</b><small>Ubah sapaan di dashboard</small></span>
+      <svg class="ic si-go"><use href="#i-arrow"/></svg>
+    </button>
+    <div class="sheet-block" style="--i:3">
+      <span class="sb-k"><svg class="ic sm"><use href="#i-palette"/></svg>TEMA WARNA</span>
+      <div class="swatches" id="swatches" role="radiogroup" aria-label="Tema warna">
+        <button type="button" class="sw" data-accent="yellow" style="--c:#ffd23f" role="radio" aria-label="Kuning"></button>
+        <button type="button" class="sw" data-accent="mint" style="--c:#6ee7a0" role="radio" aria-label="Mint"></button>
+        <button type="button" class="sw" data-accent="blue" style="--c:#7cc6fe" role="radio" aria-label="Biru"></button>
+        <button type="button" class="sw" data-accent="pink" style="--c:#ff8fab" role="radio" aria-label="Pink"></button>
+        <button type="button" class="sw" data-accent="purple" style="--c:#c3a6ff" role="radio" aria-label="Ungu"></button>
+        <button type="button" class="sw" data-accent="orange" style="--c:#ff9f5a" role="radio" aria-label="Oranye"></button>
+      </div>
+    </div>
+    <label class="sheet-block toggle" style="--i:4">
+      <span class="sb-k"><svg class="ic sm"><use href="#i-sparkle"/></svg>EFEK PARTIKEL &amp; KONFETI</span>
+      <input type="checkbox" id="fx-toggle" checked>
+      <span class="switch" aria-hidden="true"><i></i></span>
+    </label>
+    <button class="sheet-item" style="--i:5" id="sheet-cmd" type="button">
+      <span class="si-ic rename"><svg class="ic"><use href="#i-search"/></svg></span>
+      <span class="si-tx"><b>Perintah Cepat</b><small>Cari &amp; jalankan fitur dengan cepat</small></span>
+      <svg class="ic si-go"><use href="#i-arrow"/></svg>
+    </button>
+    <button class="sheet-item" style="--i:6" id="share-btn" type="button">
+      <span class="si-ic support"><svg class="ic"><use href="#i-share"/></svg></span>
+      <span class="si-tx"><b>Bagikan Website</b><small>Ajak temanmu pakai AM Premify</small></span>
+      <svg class="ic si-go"><use href="#i-arrow"/></svg>
+    </button>
+  </div>
+</div>
+
+<nav class="dock" id="dock" aria-label="Navigasi utama">
+  <a class="dock-i active" href="/index" data-tab="home"><span class="dock-ic"><svg class="ic"><use href="#i-grid"/></svg></span><span class="dock-t">Beranda</span></a>
+  <a class="dock-i dock-main" href="/premium" data-tab="premium"><span class="dock-ic"><svg class="ic"><use href="#i-crown"/></svg></span><span class="dock-t">Premium</span></a>
+  <a class="dock-i" href="/panduan" data-tab="guide"><span class="dock-ic"><svg class="ic"><use href="#i-book"/></svg></span><span class="dock-t">Panduan</span></a>
+  <a class="dock-i" href="/rating" data-tab="reviews"><span class="dock-ic"><svg class="ic"><use href="#i-star"/></svg></span><span class="dock-t">Rating</span></a>
+  <a class="dock-i" href="/room" data-tab="room"><span class="dock-ic"><svg class="ic"><use href="#i-users"/></svg></span><span class="dock-t">Room</span></a>
+  <button class="dock-i" id="dock-menu" type="button" aria-haspopup="dialog"><span class="dock-ic"><svg class="ic"><use href="#i-menu"/></svg></span><span class="dock-t">Menu</span></button>
+</nav>
+
+<div id="cmd" class="cmd hidden" role="dialog" aria-modal="true" aria-label="Perintah cepat">
+  <div class="cmd-bg" data-cmd-close></div>
+  <div class="cmd-panel">
+    <div class="cmd-top">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <input id="cmd-input" type="text" placeholder="Ketik perintah… (mis. panduan, tema, tempel)" autocomplete="off" spellcheck="false" aria-controls="cmd-list" aria-label="Cari perintah">
+      <button class="cmd-esc" type="button" data-cmd-close aria-label="Tutup">Esc</button>
+    </div>
+    <div id="cmd-list" class="cmd-list" role="listbox"></div>
+    <div class="cmd-foot"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> pilih</span><span><kbd>Enter</kbd> jalankan</span><span class="cmd-hint">Ctrl K / &#8984;K / /</span></div>
+  </div>
+</div>
+
+<div id="chat" class="chat hidden" role="dialog" aria-modal="true" aria-labelledby="chat-title">
+  <div class="chat-bg" data-chat-close></div>
+  <section class="chat-panel">
+    <header class="chat-head">
+      <span class="chat-av"><svg class="ic"><use href="#i-msg"/></svg></span>
+      <div class="chat-ti">
+        <b id="chat-title">Chat Admin</b>
+        <small id="chat-status"><i></i><span>Memuat…</span></small>
+      </div>
+      <button class="chat-x" type="button" data-chat-close aria-label="Tutup chat"><svg class="ic"><use href="#i-x"/></svg></button>
+    </header>
+    <div class="chat-ban hidden" id="chat-ban" role="alert">
+      <svg class="ic"><use href="#i-ban"/></svg>
+      <div><b>FITUR PREMIUM DINONAKTIFKAN</b><span id="chat-ban-txt"></span></div>
+    </div>
+    <div class="chat-body" id="chat-body" role="log" aria-live="polite" aria-label="Percakapan dengan admin"></div>
+    <button class="chat-new hidden" id="chat-new" type="button"><svg class="ic sm"><use href="#i-down"/></svg>Pesan baru</button>
+    <div class="chat-foot">
+      <p class="chat-err" id="chat-err" role="alert"></p>
+      <span class="chat-cnt hidden" id="chat-cnt">0/600</span>
+      <form class="chat-form" id="chat-form" autocomplete="off">
+        <textarea class="chat-in" id="chat-in" rows="1" maxlength="600" placeholder="Tulis pesan untuk admin…" aria-label="Tulis pesan"></textarea>
+        <button class="chat-send" id="chat-send" type="submit" aria-label="Kirim pesan" disabled><svg class="ic"><use href="#i-send"/></svg></button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/ui.js"></script>
+<script src="/device.js"></script>
+<script src="/app.js"></script>
+<script src="/reviews.js"></script>
+<script src="/chat.js"></script>
+<script src="/social.js"></script>
+<script src="/room.js"></script>
+</body>
+</html>
