@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd23f">
+  <meta name="description" content="Bypass link shortener dengan cepat. Tempel link, tekan Bypass, dapatkan link tujuan. Bagian dari AM Premify.">
+  <title>AM Premify - Bypass Link</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/ui.css">
+  <link rel="stylesheet" href="/responsive.css">
+  <link rel="stylesheet" href="/bypass.css">
+  <script>
+    (function(){try{var a=JSON.parse(localStorage.getItem('am_accent')||'null'); if(a) document.documentElement.setAttribute('data-accent',a);}catch(e){}})();
+  </script>
+</head>
+<body class="by-page">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24"><path d="M2 18h20M3 7l4.5 5L12 5l4.5 7L21 7l-2 11H5z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h7a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h8z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L8 14.2 3 9.3l6.9-1z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></symbol>
+    <symbol id="i-paste" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-fail" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.900 5.100L19 10l-5.100 1.900L12 17l-1.900-5.100L5 10l5.100-1.900zM19 16l.8 2.200L22 19l-2.200.8L19 22l-.8-2.200L16 19l2.200-.8z"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1.3-1.3-1.8-1-.8.7c-.8-.4-1.5-1.1-1.9-1.9l.7-.8-1-1.8z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="/index" aria-label="AM Premify">
+      <div class="logo"><svg class="ic"><use href="#i-bolt"/></svg></div>
+      <div>
+        <h1>AM Premify</h1>
+        <span class="tag">BYPASS LINK</span>
+      </div>
+    </a>
+    <nav class="tabs" role="tablist">
+      <a class="tab" href="/index" role="tab"><svg class="ic"><use href="#i-grid"/></svg><span>Dashboard</span></a>
+      <a class="tab" href="/premium" role="tab"><svg class="ic"><use href="#i-shield"/></svg><span>Premiumkan</span></a>
+      <a class="tab active" href="/bypass" role="tab" aria-selected="true"><svg class="ic"><use href="#i-link"/></svg><span>Bypass</span></a>
+      <a class="tab" href="/panduan" role="tab"><svg class="ic"><use href="#i-book"/></svg><span>Panduan</span></a>
+      <a class="tab" href="/rating" role="tab"><svg class="ic"><use href="#i-star"/></svg><span>Rating</span></a>
+      <a class="tab" href="/room" role="tab"><svg class="ic"><use href="#i-users"/></svg><span>Room</span></a>
+    </nav>
+    <div class="top-actions">
+      <a class="menu-btn" href="/index" aria-label="Kembali ke dashboard" title="Kembali ke dashboard"><svg class="ic"><use href="#i-back"/></svg></a>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>BYPASS LINK <i>&#9733;</i> TEMPEL &amp; BYPASS <i>&#9733;</i> CEPAT <i>&#9733;</i> GRATIS <i>&#9733;</i> PERIKSA LINK SEBELUM DIBUKA <i>&#9733;</i></span><span>BYPASS LINK <i>&#9733;</i> TEMPEL &amp; BYPASS <i>&#9733;</i> CEPAT <i>&#9733;</i> GRATIS <i>&#9733;</i> PERIKSA LINK SEBELUM DIBUKA <i>&#9733;</i></span></div></div>
+</header>
+
+<main class="container">
+  <div class="by-wrap">
+
+    <section class="card hero by-hero">
+      <span class="shape s-circle"></span><span class="shape s-square"></span><span class="shape s-ring"></span>
+      <div class="by-badges">
+        <span class="chip"><svg class="ic"><use href="#i-bolt"/></svg>CEPAT</span>
+        <span class="chip gold"><svg class="ic"><use href="#i-sparkle"/></svg>GRATIS</span>
+        <span class="chip by-hello hidden" id="by-hello"><svg class="ic"><use href="#i-check"/></svg><span></span></span>
+      </div>
+      <h2>Bypass <mark>Link</mark></h2>
+      <p>Tempel link shortener, tekan satu tombol, dan dapatkan link tujuannya langsung tanpa iklan berlapis.</p>
+    </section>
+
+    <section class="card by-form" aria-labelledby="by-title">
+      <div class="by-label" id="by-title"><span class="by-num">1</span>Tempel link</div>
+      <div class="by-field-row">
+        <div class="field" id="by-field">
+          <svg class="ic"><use href="#i-link"/></svg>
+          <input class="input" id="by-input" type="text" inputmode="url" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="https://sfl.gl/q3lfk94" aria-label="Link yang akan di-bypass">
+          <button class="by-clear" id="by-clear" type="button" aria-label="Hapus isi"><svg class="ic sm"><use href="#i-x"/></svg></button>
+        </div>
+        <button class="by-icon-btn" id="by-paste" type="button" aria-label="Tempel dari clipboard" title="Tempel dari clipboard"><svg class="ic"><use href="#i-paste"/></svg><span class="by-ic-t">Tempel dari clipboard</span></button>
+      </div>
+      <div class="by-hint">Contoh: <button class="by-ex" type="button" data-ex="https://sfl.gl/q3lfk94"><svg class="ic sm"><use href="#i-link"/></svg>sfl.gl/q3lfk94</button></div>
+      <button class="btn" id="by-go" type="button"><svg class="ic"><use href="#i-refresh"/></svg><span id="by-go-t">Bypass Sekarang</span></button>
+      <div class="by-warn"><svg class="ic sm"><use href="#i-alert"/></svg><span>Selalu periksa alamat link tujuan sebelum membuka. Jangan memasukkan kata sandi atau data pribadi di situs yang tidak kamu kenal.</span></div>
+    </section>
+
+    <section class="card by-res hidden" id="res" aria-live="polite">
+      <div class="by-res-head">
+        <span class="by-stamp"><svg class="ic sm"><use href="#i-ok"/></svg><span id="res-stamp-t">BERHASIL</span></span>
+        <span class="by-meta" id="res-meta"></span>
+      </div>
+      <span class="by-url" id="res-url"></span>
+      <div class="by-actions">
+        <a class="btn btn-dark" id="res-open" href="#" target="_blank" rel="noopener noreferrer nofollow"><svg class="ic"><use href="#i-ext"/></svg>Buka Link</a>
+        <button class="btn btn-sand" id="res-copy" type="button"><svg class="ic"><use href="#i-copy"/></svg>Salin Link</button>
+      </div>
+      <div class="by-others hidden" id="res-others"><h4>Link lain dari API</h4><div id="res-others-list" class="by-others"></div></div>
+      <div class="by-raw-wrap" id="res-raw-wrap">
+        <details class="by-raw"><summary><svg class="ic sm"><use href="#i-code"/></svg>Lihat respons mentah</summary><pre id="res-raw"></pre></details>
+      </div>
+    </section>
+
+    <div class="term" id="term">
+      <div class="term-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="term-title"><svg class="ic sm"><use href="#i-terminal"/></svg>bypass_terminal.log</div>
+        <div class="term-actions">
+          <button class="tbtn" id="term-copy" type="button" title="Salin log"><svg class="ic sm"><use href="#i-copy"/></svg><span>Salin</span></button>
+          <button class="tbtn icon" id="term-clear" type="button" title="Bersihkan log"><svg class="ic sm"><use href="#i-trash"/></svg></button>
+          <button class="tbtn icon" id="term-toggle" type="button" title="Ciutkan"><svg class="ic sm"><use href="#i-chev"/></svg></button>
+        </div>
+      </div>
+      <div class="term-body" id="term-body" role="log" aria-live="polite"></div>
+    </div>
+
+    <section class="card" aria-labelledby="hist-title">
+      <div class="by-hist-head">
+        <h3 class="card-title" id="hist-title"><svg class="ic"><use href="#i-clock"/></svg>Riwayat</h3>
+        <button class="tbtn hidden" id="hist-clear" type="button"><svg class="ic sm"><use href="#i-trash"/></svg><span>Hapus semua</span></button>
+      </div>
+      <ul class="by-hist" id="hist"></ul>
+    </section>
+
+    <section class="card">
+      <h3 class="card-title"><svg class="ic"><use href="#i-book"/></svg>Cara pakai</h3>
+      <div class="by-steps" style="margin-top:16px">
+        <div class="by-step"><span class="g-num">1</span><h3>Salin link</h3><p>Salin link shortener yang mau dibuka, misalnya dari chat atau deskripsi video.</p></div>
+        <div class="by-step"><span class="g-num">2</span><h3>Tempel &amp; Bypass</h3><p>Tempel di kolom di atas, lalu tekan tombol Bypass Sekarang dan tunggu prosesnya.</p></div>
+        <div class="by-step"><span class="g-num">3</span><h3>Buka hasilnya</h3><p>Periksa alamat tujuan, lalu buka atau salin link hasilnya.</p></div>
+      </div>
+      <div class="by-faq">
+        <details><summary>Kenapa bypass gagal?<svg class="ic sm"><use href="#i-down"/></svg></summary><p>Link mungkin sudah kedaluwarsa, salah ketik, atau jenisnya belum didukung oleh layanan bypass. Coba cek link di browser, lalu ulangi beberapa saat lagi.</p></details>
+        <details><summary>Apakah riwayatku tersimpan di server?<svg class="ic sm"><use href="#i-down"/></svg></summary><p>Tidak. Riwayat hanya disimpan di browser perangkatmu (maksimal 10) dan bisa dihapus kapan saja lewat tombol Hapus semua.</p></details>
+        <details><summary>Apakah link hasil pasti aman?<svg class="ic sm"><use href="#i-down"/></svg></summary><p>Tidak ada jaminan. Hasil berasal dari situs lain, jadi selalu periksa alamatnya dulu dan hindari mengunduh file yang mencurigakan.</p></details>
+      </div>
+    </section>
+
+    <section class="card by-support">
+      <h3>Suka dengan tools ini?</h3>
+      <p>Ikuti saluran WhatsApp untuk update terbaru atau dukung developer agar website terus berkembang.</p>
+      <div class="by-actions">
+        <a class="btn wa" href="https://whatsapp.com/channel/0029Vb99yLaK0IBgYkp9KR2q" target="_blank" rel="noopener noreferrer"><svg class="ic"><use href="#i-wa"/></svg>Saluran kenzchillz</a>
+        <a class="btn" href="https://sociabuzz.com/kenzchillz/tribe" target="_blank" rel="noopener noreferrer"><svg class="ic"><use href="#i-heart"/></svg>Dukung developer</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">AM Premify v4.8 &bull; Bypass Link &bull; Developer kenz</footer>
+
+<nav class="dock by-dock" aria-label="Navigasi utama">
+  <a class="dock-i" href="/index"><span class="dock-ic"><svg class="ic"><use href="#i-grid"/></svg></span><span class="dock-t">Beranda</span></a>
+  <a class="dock-i" href="/premium"><span class="dock-ic"><svg class="ic"><use href="#i-crown"/></svg></span><span class="dock-t">Premium</span></a>
+  <a class="dock-i dock-main active" href="/bypass" aria-current="page"><span class="dock-ic"><svg class="ic"><use href="#i-link"/></svg></span><span class="dock-t">Bypass</span></a>
+  <a class="dock-i" href="/rating"><span class="dock-ic"><svg class="ic"><use href="#i-star"/></svg></span><span class="dock-t">Rating</span></a>
+  <a class="dock-i" href="/room"><span class="dock-ic"><svg class="ic"><use href="#i-users"/></svg></span><span class="dock-t">Room</span></a>
+</nav>
+
+<div id="toast" class="toast"></div>
+<script src="/bypass.js"></script>
+</body>
+</html>
